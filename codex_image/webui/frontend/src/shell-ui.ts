@@ -340,7 +340,7 @@ function resetForm() {
     if (els.sizeModeSelect) els.sizeModeSelect.value = "auto";
     if (els.nInput) els.nInput.value = "1";
     if (els.resolution) els.resolution.value = "standard";
-    if (els.ratio) els.ratio.value = "1:1";
+    if (els.ratio) els.ratio.value = "auto";
     if (els.orientation) els.orientation.value = "square";
     els.size.value = "auto";
     els.quality.value = "auto";

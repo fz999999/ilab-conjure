@@ -1178,7 +1178,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         ratio_controls = re.search(r'<select id="ratio" class="control compact-output-select">([\s\S]*?)</select>', html)
         self.assertIsNotNone(ratio_controls)
         ratio_markup = ratio_controls.group(1)
-        self.assertNotIn('<option value="auto"', ratio_markup)
+        self.assertIn('<option value="auto" selected>智能自动匹配</option>', ratio_markup)
         last_index = -1
         for value in expected_ratios:
             index = ratio_markup.index(f'<option value="{value}"')
@@ -2304,7 +2304,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
             "sizeModeSelect": [("auto", "自动"), ("preset", "预设尺寸"), ("custom", "自定义尺寸")],
             "orientation": [("square", "方形"), ("portrait", "竖图"), ("landscape", "横图")],
             "resolution": [("standard", "1K"), ("2k", "2K"), ("4k", "4K")],
-            "ratio": [("1:1", "1:1"), ("21:9", "21:9")],
+            "ratio": [("auto", "智能自动匹配"), ("1:1", "1:1 方形/头像/商品"), ("21:9", "21:9 超宽横图")],
             "quality": [("auto", "自动"), ("high", "高")],
             "nInput": [("1", "1"), ("4", "4")],
             "outputFormat": [("png", "png"), ("webp", "webp")],
@@ -2334,6 +2334,104 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
 
         self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*min-height:\s*36px")
         self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*width:\s*100%")
+
+    def test_gpt_unified_ratio_select_defaults_to_auto_and_lists_supported_presets(self) -> None:
+        html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
+        ratio = re.search(r'<select id="ratio"[^>]*>([\s\S]*?)</select>', html)
+
+        self.assertIsNotNone(ratio)
+        ratio_markup = ratio.group(1)
+        self.assertRegex(ratio_markup, r'<option value="auto" selected>智能自动匹配</option>')
+        expected_options = [
+            ("1:1", "1:1 方形/头像/商品"),
+            ("4:5", "4:5 小红书/海报"),
+            ("5:4", "5:4 横版商品"),
+            ("3:4", "3:4 竖版作品"),
+            ("4:3", "4:3 配图/插画"),
+            ("2:3", "2:3 人物海报"),
+            ("3:2", "3:2 横版摄影"),
+            ("9:16", "9:16 竖屏/短视频"),
+            ("16:9", "16:9 封面/视频"),
+            ("9:21", "9:21 超长竖图"),
+            ("21:9", "21:9 超宽横图"),
+        ]
+        positions = []
+        for value, label in expected_options:
+            option = f'<option value="{value}">{label}</option>'
+            self.assertIn(option, ratio_markup)
+            positions.append(ratio_markup.index(option))
+        self.assertEqual(positions, sorted(positions))
+        self.assertNotIn('value="custom"', ratio_markup)
+
+    def test_gpt_unified_ratio_select_controls_auto_and_preset_sizes(self) -> None:
+        node = shutil.which("node")
+        if node is None:
+            self.skipTest("node is required for frontend behavior checks")
+        source = Path("codex_image/webui/frontend/src/custom-size-controls.ts").read_text(encoding="utf-8")
+        size_source = Path("codex_image/webui/frontend/src/size-presets.ts").read_text(encoding="utf-8")
+        harness = "\n".join(
+            [
+                """
+                const DEFAULT_RESOLUTION = "standard";
+                const DEFAULT_RATIO = "1:1";
+                const DEFAULT_ORIENTATION = "square";
+                const GPT_IMAGE_2_SIZE_PRESETS = {
+                  standard: { "1:1": [1024, 1024], "16:9": [1536, 864] },
+                  "2k": { "1:1": [2048, 2048], "16:9": [2048, 1152] },
+                  "4k": { "1:1": [2880, 2880], "16:9": [3840, 2160] },
+                };
+                const RATIO_ORIENTATION = { "1:1": "square", "16:9": "landscape" };
+                const ORIENTATION_DEFAULT_RATIOS = { square: "1:1", landscape: "16:9", portrait: "2:3" };
+                const RATIO_COUNTERPARTS = { "1:1": "1:1", "16:9": "9:16" };
+                const els = {
+                  customSizeToggle: { checked: false },
+                  sizeModeSelect: { value: "preset" },
+                  size: { value: "1024x1024" },
+                  resolution: { value: "standard", dispatchEvent() {} },
+                  ratio: { value: "auto", dispatchEvent() {} },
+                  orientation: { value: "square", dispatchEvent() {} },
+                };
+                let pixelPreviewArg = "";
+                function updatePixelPreview(size) { pixelPreviewArg = size; }
+                function updateCustomSize() {}
+                function updateRequestPreview() {}
+                function setCustomAspectRatioFromManualInputs() {}
+                function applyCustomAspectRatioFromWidth() {}
+                function populateCustomSizeFromCurrentPreset() {}
+                """,
+                self._extract_javascript_function(source, "normalizedSizeMode"),
+                self._extract_javascript_function(source, "sizeControlName"),
+                self._extract_javascript_function(source, "syncRatioAndOrientation"),
+                self._extract_javascript_function(source, "syncOrientationFromRatio"),
+                self._extract_javascript_function(source, "syncRatioFromOrientation"),
+                self._extract_javascript_function(source, "setSizeControlValue"),
+                self._extract_javascript_function(size_source, "presetDimensions"),
+                self._extract_javascript_function(size_source, "sizeForPreset"),
+                self._extract_javascript_function(source, "updateSizeFromPreset"),
+                """
+                updateSizeFromPreset({ target: els.ratio });
+                if (els.sizeModeSelect.value !== "auto") throw new Error(`expected auto mode, got ${els.sizeModeSelect.value}`);
+                if (els.size.value !== "auto") throw new Error(`expected auto size, got ${els.size.value}`);
+                if (pixelPreviewArg !== "auto") throw new Error(`expected auto preview, got ${pixelPreviewArg}`);
+
+                els.ratio.value = "16:9";
+                updateSizeFromPreset({ target: els.ratio });
+                if (els.sizeModeSelect.value !== "preset") throw new Error(`expected preset mode, got ${els.sizeModeSelect.value}`);
+                if (els.orientation.value !== "landscape") throw new Error(`expected landscape, got ${els.orientation.value}`);
+                if (els.size.value !== "1536x864") throw new Error(`expected standard 16:9 size, got ${els.size.value}`);
+
+                els.ratio.value = "auto";
+                updateSizeFromPreset({ target: els.ratio });
+                els.resolution.value = "4k";
+                updateSizeFromPreset({ target: els.resolution });
+                if (els.sizeModeSelect.value !== "auto") throw new Error("resolution changes must preserve auto mode");
+                if (els.size.value !== "auto") throw new Error(`resolution changes must preserve auto size, got ${els.size.value}`);
+                """,
+            ]
+        )
+        result = subprocess.run([node, "-e", harness], check=False, text=True, capture_output=True)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_gpt_size_auto_mode_is_available_and_default(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
@@ -2380,6 +2478,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
                 """,
                 self._extract_javascript_function(source, "normalizedSizeMode"),
                 self._extract_javascript_function(source, "setSizeMode"),
+                self._extract_javascript_function(source, "sizeControlName"),
                 self._extract_javascript_function(source, "updateSizeFromPreset"),
                 """
                 setSizeMode("auto");

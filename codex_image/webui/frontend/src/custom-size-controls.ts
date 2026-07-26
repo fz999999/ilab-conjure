@@ -275,6 +275,16 @@ function swapCustomRatioDigits(): void {
 }
 
 export function updateSizeFromPreset(event: any = null): void {
+  const changedControl = sizeControlName(event?.target);
+  const selectedRatio = String(els.ratio?.value || "auto");
+  const currentSizeMode = normalizedSizeMode(els.sizeModeSelect?.value);
+  if (selectedRatio === "auto") {
+    if (els.sizeModeSelect) els.sizeModeSelect.value = "auto";
+  } else if (changedControl === "ratio" || currentSizeMode === "auto") {
+    if (els.sizeModeSelect) els.sizeModeSelect.value = "preset";
+    if (els.customSizeToggle) els.customSizeToggle.checked = false;
+  }
+
   const sizeMode = normalizedSizeMode(els.sizeModeSelect?.value);
   if (sizeMode === "auto") {
     if (els.customSizeToggle) els.customSizeToggle.checked = false;
@@ -285,7 +295,6 @@ export function updateSizeFromPreset(event: any = null): void {
     return;
   }
 
-  const changedControl = sizeControlName(event?.target);
   syncRatioAndOrientation(changedControl);
 
   if (sizeMode === "custom" || els.customSizeToggle?.checked) {

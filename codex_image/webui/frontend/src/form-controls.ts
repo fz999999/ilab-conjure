@@ -118,12 +118,12 @@ export function bindFormControlEvents(): void {
   });
 
   [els.resolution, els.ratio, els.orientation].filter(Boolean).forEach((element: any) => {
-    element.addEventListener("input", () => {
-      updateSizeFromPreset();
+    element.addEventListener("input", (event: any) => {
+      updateSizeFromPreset(event);
       saveCurrentModelParameterDraft();
     });
-    element.addEventListener("change", () => {
-      updateSizeFromPreset();
+    element.addEventListener("change", (event: any) => {
+      updateSizeFromPreset(event);
       saveCurrentModelParameterDraft();
     });
   });
