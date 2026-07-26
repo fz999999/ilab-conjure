@@ -16,6 +16,19 @@ export interface ProviderModelBindingSettings {
   append_aspect_ratio_prompt?: boolean;
 }
 
+export type ProviderBalanceStatus =
+  | { status: "unavailable" }
+  | { status: "loading" }
+  | { status: "error" }
+  | {
+      status: "ok";
+      remaining_usd?: number;
+      used_usd?: number;
+      total_usd?: number;
+      remaining?: number;
+      unit?: string;
+    };
+
 export interface ProviderConnectionSettings {
   id: string;
   name: string;
@@ -27,6 +40,7 @@ export interface ProviderConnectionSettings {
   api_key_set?: boolean;
   api_key_masked?: string;
   api_key_source_provider_id?: string;
+  balance_configured?: boolean;
   image_model?: string;
   api_mode?: ApiMode;
   images_concurrency?: number;
@@ -122,6 +136,7 @@ export interface CatalogProvider {
   available: boolean;
   bindings: CatalogProviderBinding[];
   icon_emoji?: string;
+  balance_configured?: boolean;
 }
 
 export interface GenerationCatalog {

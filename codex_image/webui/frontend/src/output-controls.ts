@@ -41,10 +41,14 @@ export function updateQuantity(): void {
 export function updateCompression(): void {
   const compressionEnabled = els.outputFormat.value !== "png";
   els.compression.disabled = !compressionEnabled;
+  els.compressionTrigger?.classList.toggle("hidden", !compressionEnabled);
+  if (els.compressionTrigger) els.compressionTrigger.disabled = !compressionEnabled;
   if (!compressionEnabled) {
     closeCompressionPopover();
   }
-  els.compressionValue.textContent = `${els.compression.value}%`;
+  const compressionLabel = `${els.compression.value}%`;
+  els.compressionValue.textContent = compressionLabel;
+  if (els.compressionTriggerValue) els.compressionTriggerValue.textContent = compressionLabel;
   updateRangeProgress(els.compression);
 }
 
@@ -58,12 +62,6 @@ export function closeCompressionPopover(): void {
   if (!els.compressionPopover) return;
   els.compressionPopover.classList.add("hidden");
   els.compressionPopover.setAttribute("aria-hidden", "true");
-}
-
-export function handleOutputFormatDoubleClick(event: any): void {
-  const button = event.target.closest("[data-val]");
-  if (!button || !["jpeg", "webp"].includes(button.dataset.val)) return;
-  openCompressionPopover();
 }
 
 export function syncRadioButtons(...selects: any[]): void {

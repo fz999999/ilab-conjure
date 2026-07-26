@@ -1,4 +1,4 @@
-import type { GenerationCatalog, GenerationSnapshotView, ModelFamilyId, QueueState, TaskNotification, TaskNotificationSettings, WebUITask } from "./types";
+import type { GenerationCatalog, GenerationSnapshotView, ModelFamilyId, ProviderBalanceStatus, QueueState, TaskNotification, TaskNotificationSettings, WebUITask } from "./types";
 import type { WebUIBridge } from "./legacy-bridge";
 import type { Locale } from "./i18n/types";
 
@@ -29,6 +29,9 @@ export interface WebUIState {
   selectedModelId: string | null;
   selectedProviderId: string | null;
   selectedProviderBindingId: string | null;
+  providerBalances: Record<string, ProviderBalanceStatus>;
+  providerBalanceRequestSeq: number;
+  providerBalanceSelectedProviderId: string | null;
   lastModelByFamily: Record<string, string>;
   lastProviderByModel: Record<string, string>;
   lastProviderSelectionByModel: Record<string, string>;

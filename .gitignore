@@ -16,3 +16,12 @@ input/
 inputs/
 output/
 outputs/
+
+# Local agent/runtime artifacts
+.omx/
+artifacts/
+.private/
+backups/
+
+# Local credentials
+账号密码.txt

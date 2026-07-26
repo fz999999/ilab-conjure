@@ -9,6 +9,7 @@ from codex_image.generation import get_model_manifest
 from codex_image.providers import capabilities as provider_capabilities
 
 _OPERATIONS = frozenset({"generate", "edit"})
+_BALANCE_PROTOCOLS = frozenset({"new_api", "sub2api", "wisart"})
 _EMOJI_JOINER = "\u200d"
 _KEYCAP = "\u20e3"
 
@@ -192,6 +193,20 @@ def _validate_provider(raw: Mapping[str, Any], *, index: int) -> dict[str, Any]:
         "concurrency": normalize_v2_concurrency(raw.get("concurrency")),
         "bindings": bindings,
     }
+    balance_protocol = str(raw.get("balance_protocol") or "").strip().lower()
+    balance_url = str(raw.get("balance_url") or "").strip()
+    balance_token = str(raw.get("balance_token") or "").strip()
+    balance_user_id = str(raw.get("balance_user_id") or "").strip()
+    if balance_protocol and balance_protocol not in _BALANCE_PROTOCOLS:
+        raise ValueError("unknown_balance_protocol")
+    if balance_protocol:
+        provider["balance_protocol"] = balance_protocol
+    if balance_url:
+        provider["balance_url"] = normalize_v2_base_url(balance_url)
+    if balance_token:
+        provider["balance_token"] = balance_token
+    if balance_user_id:
+        provider["balance_user_id"] = balance_user_id
     icon_emoji = normalize_provider_icon_emoji(raw.get("icon_emoji"))
     if icon_emoji:
         provider["icon_emoji"] = icon_emoji

@@ -14,7 +14,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         sidebar = Path("codex_image/webui/static/styles/10-sidebar.css").read_text(encoding="utf-8")
 
-        self.assertIn('<div class="brand-name">iLab CONJURE</div>', html)
+        self.assertIn('<div class="brand-name">大川生图站</div>', html)
         self.assertIn('id="modelFamilyOptions"', html)
         self.assertLess(html.index('class="brand-name"'), html.index('id="modelFamilyOptions"'))
         self.assertLess(html.index('id="modelFamilyOptions"'), html.index('class="sidebar-search"'))
@@ -328,8 +328,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('/static/app.js?v=runtime-640', html)
-        self.assertIn('/static/styles.css?v=runtime-640', html)
+        self.assertIn('/static/app.js?v=runtime-641', html)
+        self.assertIn('/static/styles.css?v=runtime-641', html)
         self.assertIn('id="recentAssetDock"', html)
         self.assertRegex(html, r'class="image-input-footer"[\s\S]*id="recentAssetDock"[\s\S]*id="recentAssetList"')
         self.assertRegex(html, r'id="recentAssetDock"[\s\S]*id="quickGalleryDock"[\s\S]*id="galleryManagePanel"')
@@ -754,7 +754,6 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         for function_name in [
             "updateQuantity",
             "updateCompression",
-            "handleOutputFormatDoubleClick",
             "updateSizeFromPreset",
             "syncSizeControlsFromSize",
             "customSizeValidationMessage",
@@ -853,42 +852,30 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertRegex(styles, r"\.drawer-close-button\s*\{[^}]*min-width:\s*44px")
         self.assertRegex(styles, r"\.drawer-close-button\s*\{[^}]*align-items:\s*center")
         self.assertRegex(styles, r"\.drawer-close-icon\s*\{[^}]*stroke:\s*currentColor")
-    def test_sidebar_brand_uses_ilab_conjure_identity(self) -> None:
+    def test_sidebar_brand_uses_dachuan_photo_identity(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn("<title>iLab CONJURE</title>", html)
-        self.assertNotIn("<title>iLab GPT CONJURE</title>", html)
-        self.assertIn('<link rel="icon" type="image/svg+xml" href="/static/brand/favicon.svg" />', html)
-        self.assertNotIn('<link rel="icon" href="data:," />', html)
+        self.assertIn("<title>大川生图站</title>", html)
+        self.assertIn('<link rel="icon" type="image/png" sizes="64x64" href="/static/brand/dachuan-logo-64.png" />', html)
+        self.assertIn('<link rel="apple-touch-icon" sizes="180x180" href="/static/brand/dachuan-logo-180.png" />', html)
         self.assertIn('<div class="brand-lockup">', html)
-        self.assertIn('class="brand-mark brand-mark-rabbit"', html)
-        self.assertIn('class="brand-rabbit-logo"', html)
-        self.assertIn('class="brand-rabbit-fill"', html)
-        self.assertIn('class="brand-rabbit-cutout"', html)
-        self.assertIn('class="brand-rabbit-spark"', html)
-        self.assertIn('<div class="brand-name">iLab CONJURE</div>', html)
+        self.assertIn('class="brand-mark"', html)
+        self.assertIn('class="brand-logo-image"', html)
+        self.assertNotIn('class="brand-rabbit-logo"', html)
+        self.assertIn('<div class="brand-name">大川生图站</div>', html)
         self.assertRegex(html, r'id="modelFamilyOptions"[\s\S]*role="radiogroup"')
         self.assertNotIn('class="brand-subtitle"', html)
-        self.assertIn('aria-label="iLab CONJURE"', html)
+        self.assertIn('aria-label="大川生图站"', html)
         self.assertNotIn("GPT-image-2 Studio", html)
-        favicon_path = Path("codex_image/webui/static/brand/favicon.svg")
-        self.assertTrue(favicon_path.exists())
-        favicon_source = favicon_path.read_text(encoding="utf-8")
-        self.assertIn('viewBox="0 0 128 128"', favicon_source)
-        self.assertIn('fill="#457B66"', favicon_source)
-        self.assertIn('fill="#FFFFFF"', favicon_source)
-        self.assertNotIn("currentColor", favicon_source)
-        self.assertNotIn("sodipodi:", Path("codex_image/webui/static/brand/rabbit-logo.svg").read_text(encoding="utf-8"))
-        self.assertNotIn("inkscape:", Path("codex_image/webui/static/brand/rabbit-logo.svg").read_text(encoding="utf-8"))
+
+        for filename in ("dachuan-logo-64.png", "dachuan-logo-180.png"):
+            self.assertTrue((Path("codex_image/webui/static/brand") / filename).exists())
 
         self.assertRegex(styles, r"\.brand-mark\s*\{[^}]*width:\s*42px")
         self.assertRegex(styles, r"\.brand-mark\s*\{[^}]*height:\s*42px")
-        self.assertRegex(styles, r"\.brand-mark\s*\{[^}]*border-radius:\s*15px")
-        self.assertRegex(styles, r"\.brand-rabbit-logo\s*\{[^}]*fill:\s*currentColor")
-        self.assertRegex(styles, r"\.brand-rabbit-logo\s*\{[^}]*color:\s*#ffffff")
-        self.assertRegex(styles, r"\.brand-rabbit-cutout\s*\{[^}]*fill:\s*#457b66")
-        self.assertRegex(styles, r"\.brand-rabbit-spark\s*\{[^}]*stroke-width:\s*1\.55")
+        self.assertRegex(styles, r"\.brand-mark\s*\{[^}]*border-radius:\s*14px")
+        self.assertRegex(styles, r"\.brand-logo-image\s*\{[^}]*object-fit:\s*cover")
         self.assertRegex(styles, r"\.brand-name\s*\{[^}]*font-size:\s*17px")
         self.assertRegex(styles, r"\.model-family-segments\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)")
         self.assertRegex(styles, r"\.model-family-segments\s+\.model-family-segment\s*\{[^}]*font-size:\s*13px")
@@ -1175,8 +1162,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
             Path("Start WebUI.bat").read_text(encoding="utf-8"),
         ]
 
-        self.assertIn('FastAPI(title="iLab CONJURE"', app_source)
-        self.assertIn("<title>iLab CONJURE</title><h1>iLab CONJURE</h1>", app_source)
+        self.assertIn('FastAPI(title="大川生图站"', app_source)
+        self.assertIn("<title>大川生图站</title><h1>大川生图站</h1>", app_source)
         self.assertNotIn("iLab GPT CONJURE", app_source)
         self.assertNotIn("GPT-image-2 Studio", app_source)
         for source in launcher_sources:
@@ -1188,21 +1175,16 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
 
         expected_ratios = ("1:1", "4:5", "5:4", "3:4", "4:3", "2:3", "3:2", "9:16", "16:9", "9:21", "21:9")
-        for value in expected_ratios:
-            self.assertIn(f'data-val="{value}"', html)
-            self.assertIn(f'<option value="{value}"', html)
-
-        ratio_controls = re.search(r'id="ratioGroup"[\s\S]*?<select id="ratio" class="hidden">[\s\S]*?</select>', html)
+        ratio_controls = re.search(r'<select id="ratio" class="control compact-output-select">([\s\S]*?)</select>', html)
         self.assertIsNotNone(ratio_controls)
-        self.assertIn('id="orientation"', html)
-        self.assertNotIn('data-val="auto"', ratio_controls.group(0))
-        self.assertNotIn('<option value="auto"', ratio_controls.group(0))
-        ratio_markup = ratio_controls.group(0)
+        ratio_markup = ratio_controls.group(1)
+        self.assertNotIn('<option value="auto"', ratio_markup)
         last_index = -1
         for value in expected_ratios:
-            index = ratio_markup.index(f'data-val="{value}"')
+            index = ratio_markup.index(f'<option value="{value}"')
             self.assertGreater(index, last_index)
             last_index = index
+        self.assertIn('id="orientation"', html)
         self.assertIn('"4:5": [1024, 1280]', script)
         self.assertIn('"5:4": [1280, 1024]', script)
         self.assertIn('"4:5": [1600, 2000]', script)
@@ -1212,6 +1194,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertIn('"21:9": [1568, 672]', script)
         self.assertIn('"9:21": [672, 1568]', script)
         self.assertIn("RATIO_COUNTERPARTS", script)
+
     def test_image_input_source_selector_and_hints_are_removed(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         script = self._frontend_script_source()
@@ -2312,20 +2295,62 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertNotIn('class="ghost-button text-sm" type="button">关闭</button>', html)
         self.assertRegex(styles, r"\.drawer-close-button\s*\{[^}]*flex:\s*0 0 44px")
         self.assertRegex(styles, r"\.drawer-close-button\s*\{[^}]*min-width:\s*44px")
-    def test_output_quantity_uses_button_group_limited_to_four(self) -> None:
+    def test_gpt_output_settings_use_compact_select_controls(self) -> None:
+        html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
+        styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
+
+        expected_options = {
+            "promptFidelity": [("original", "原文"), ("strict", "保真"), ("off", "自动")],
+            "sizeModeSelect": [("preset", "预设尺寸"), ("custom", "自定义尺寸")],
+            "orientation": [("square", "方形"), ("portrait", "竖图"), ("landscape", "横图")],
+            "resolution": [("standard", "1K"), ("2k", "2K"), ("4k", "4K")],
+            "ratio": [("1:1", "1:1"), ("21:9", "21:9")],
+            "quality": [("auto", "自动"), ("high", "高")],
+            "nInput": [("1", "1"), ("4", "4")],
+            "outputFormat": [("png", "png"), ("webp", "webp")],
+            "moderation": [("auto", "auto"), ("low", "low")],
+        }
+        for control_id, options in expected_options.items():
+            with self.subTest(control_id=control_id):
+                select = re.search(
+                    rf'<select id="{re.escape(control_id)}" class="control compact-output-select"[^>]*>([\s\S]*?)</select>',
+                    html,
+                )
+                self.assertIsNotNone(select)
+                markup = select.group(1)
+                for value, label in options:
+                    self.assertRegex(markup, rf'<option value="{re.escape(value)}"[^>]*>{re.escape(label)}</option>')
+
+        for removed_group in (
+            "promptFidelityGroup",
+            "sizeModeGroup",
+            "orientationGroup",
+            "resolutionGroup",
+            "ratioGroup",
+            "quantityGroup",
+            "outputFormatGroup",
+        ):
+            self.assertNotIn(f'id="{removed_group}"', html)
+
+        self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*min-height:\s*36px")
+        self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*width:\s*100%")
+
+    def test_output_quantity_uses_select_limited_to_four(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         script = self._frontend_script_source()
 
-        self.assertIn('id="quantityGroup"', html)
+        self.assertNotIn('id="quantityGroup"', html)
         self.assertNotIn("<span>数量 n</span>", html)
         self.assertNotRegex(html, r'id="nInput"[^>]*type="range"')
-        self.assertRegex(html, r'id="quantityGroup"[\s\S]*data-val="1"[^>]*>1')
-        self.assertRegex(html, r'id="quantityGroup"[\s\S]*data-val="4"[^>]*>4')
-        self.assertRegex(html, r'<select id="nInput" class="hidden">[\s\S]*<option value="1" selected>1</option>')
+        quantity = re.search(r'<select id="nInput" class="control compact-output-select">([\s\S]*?)</select>', html)
+        self.assertIsNotNone(quantity)
+        self.assertRegex(quantity.group(1), r'<option value="1" selected>1</option>')
+        self.assertRegex(quantity.group(1), r'<option value="4">4</option>')
         self.assertIn('"output.count": taskParams.n', script)
         self.assertNotIn('form.append("n"', script)
         self.assertNotIn("nDecrease", html)
         self.assertNotIn("nIncrease", html)
+
     def test_output_sliders_match_theme(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         script = self._frontend_script_source()
@@ -2333,7 +2358,9 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
 
         self.assertNotIn("range-control quantity-range", html)
         self.assertNotIn('id="nInput" class="slider"', html)
-        self.assertIn('id="outputFormatGroup"', html)
+        self.assertIn('id="outputFormat" class="control compact-output-select"', html)
+        self.assertIn('id="compressionTrigger"', html)
+        self.assertIn('id="compressionTriggerValue"', html)
         self.assertIn('id="compressionPopover"', html)
         self.assertIn('class="compression-popover hidden"', html)
         self.assertIn('role="dialog"', html)
@@ -2345,8 +2372,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertIn("compressionEnabled", script)
         self.assertIn("openCompressionPopover", script)
         self.assertIn("closeCompressionPopover", script)
-        self.assertIn("handleOutputFormatDoubleClick", script)
-        self.assertIn('addEventListener("dblclick", handleOutputFormatDoubleClick)', script)
+        self.assertIn('els.compressionTrigger?.addEventListener("click", openCompressionPopover)', script)
+        self.assertIn('els.compressionTrigger?.classList.toggle("hidden", !compressionEnabled)', script)
         self.assertIn('event.key === "Escape"', script)
         self.assertIn('els.compressionPopover.classList.add("hidden")', script)
         self.assertNotIn('els.compressionField.classList.toggle("hidden"', script)
@@ -2361,85 +2388,66 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertRegex(styles, r"\.compression-range\s*\{[^}]*grid-template-columns:\s*auto minmax\(160px,\s*1fr\) auto")
         self.assertRegex(styles, r"\.range-value\s*\{[^}]*border-radius:\s*999px")
         self.assertRegex(styles, r"input\[type=range\]\.slider::-webkit-slider-thumb\s*\{[^}]*border:\s*5px solid var\(--range-fill\)")
-    def test_output_ratio_layout_is_full_width_and_pairs_portrait_landscape(self) -> None:
+
+    def test_output_ratio_layout_is_full_width_and_compact(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertRegex(html, r'<div class="field full-width ratio-field">[\s\S]*id="ratioGroup"')
-        self.assertRegex(styles, r"\.ratio-group\s*\{[^}]*grid-template-columns:\s*repeat\(6,\s*minmax\(0,\s*1fr\)\)")
-        self.assertRegex(styles, r"\.ratio-group\s*\{[^}]*grid-template-rows:\s*repeat\(2,\s*30px\)")
-        self.assertRegex(styles, r"\.ratio-group\s+\.radio-btn\s*\{[^}]*transform:\s*scale\(0\.985\)")
-        self.assertRegex(styles, r"\.ratio-group\s+\.radio-btn\.active\s*\{[^}]*transform:\s*scale\(1\)")
-        self.assertRegex(styles, r"\.radio-btn\s*\{[^}]*transition:\s*[\s\S]*background-color var\(--motion-base\)")
-        self.assertRegex(styles, r"@media \(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*\.ratio-group\s+\.radio-btn\s*\{[^}]*transform:\s*none")
-        self.assertRegex(styles, r"\.ratio-group\s+\.radio-btn\[data-val=\"1:1\"\]\s*\{[^}]*grid-row:\s*1\s*/\s*3")
-        for value, column, row in (
-            ("4:5", 2, 1),
-            ("5:4", 2, 2),
-            ("3:4", 3, 1),
-            ("4:3", 3, 2),
-            ("2:3", 4, 1),
-            ("3:2", 4, 2),
-            ("9:16", 5, 1),
-            ("16:9", 5, 2),
-            ("9:21", 6, 1),
-            ("21:9", 6, 2),
-        ):
-            self.assertRegex(styles, rf"\.ratio-group\s+\.radio-btn\[data-val=\"{value}\"\]\s*\{{[^}}]*grid-column:\s*{column}")
-            self.assertRegex(styles, rf"\.ratio-group\s+\.radio-btn\[data-val=\"{value}\"\]\s*\{{[^}}]*grid-row:\s*{row}")
+        self.assertRegex(
+            html,
+            r'<div class="field full-width ratio-field">[\s\S]*<select id="ratio" class="control compact-output-select">',
+        )
+        self.assertNotIn('id="ratioGroup"', html)
+        self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*min-height:\s*36px")
+        self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*padding-right:\s*34px")
+
     def test_size_controls_keep_mode_specific_rows_above_ratio(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
 
         self.assertRegex(
             html,
-            r'<div class="field orientation-field">[\s\S]*id="orientationGroup"[\s\S]*</div>\s*'
-            r'<div class="field resolution-field">[\s\S]*id="resolutionGroup"[\s\S]*</div>\s*'
+            r'<div class="field orientation-field">[\s\S]*id="orientation"[\s\S]*</div>\s*'
+            r'<div class="field resolution-field">[\s\S]*id="resolution"[\s\S]*</div>\s*'
             r'<div id="customSize" class="custom-size hidden"[\s\S]*id="customWidth"[\s\S]*id="customHeight"[\s\S]*</div>\s*'
-            r'<div class="field full-width ratio-field">[\s\S]*id="ratioGroup"',
+            r'<div class="field full-width ratio-field">[\s\S]*id="ratio"',
         )
         self.assertRegex(
             html,
             r'<div class="field-pair full-width quantity-quality-row">[\s\S]*'
             r'<div class="field quality-field">[\s\S]*id="quality"[\s\S]*</div>\s*'
-            r'<div class="field quantity-field">[\s\S]*id="quantityGroup"',
+            r'<div class="field quantity-field">[\s\S]*id="nInput"',
         )
+
     def test_button_radio_groups_are_not_wrapped_by_labels(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
 
         for label_html in re.findall(r"<label\b[\s\S]*?</label>", html):
             self.assertNotIn('class="radio-group"', label_html)
             self.assertNotIn('class="radio-btn"', label_html)
-    def test_resolution_and_orientation_use_button_groups(self) -> None:
+    def test_resolution_and_orientation_use_compact_selects(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         script = self._frontend_script_source()
-        styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('id="resolutionGroup"', html)
-        self.assertRegex(html, r'id="resolutionGroup"[\s\S]*data-val="standard"[^>]*>1K')
-        self.assertRegex(html, r'<select id="resolution" class="hidden">[\s\S]*<option value="standard" selected>1K</option>')
-        resolution_controls = re.search(r'id="resolutionGroup"[\s\S]*?<select id="resolution" class="hidden">[\s\S]*?</select>', html)
-        self.assertIsNotNone(resolution_controls)
-        self.assertNotIn('data-val="auto"', resolution_controls.group(0))
-        self.assertNotIn('<option value="auto"', resolution_controls.group(0))
-        self.assertIn('data-val="standard"', html)
-        self.assertIn('data-val="2k"', html)
-        self.assertIn('data-val="4k"', html)
-        self.assertRegex(html, r'<select id="resolution" class="hidden">')
-        self.assertRegex(html, r'id="orientationGroup"[\s\S]*data-val="square"[\s\S]*orientation-option-icon-square[\s\S]*data-i18n="output\.square"[\s\S]*方形')
-        self.assertRegex(html, r'id="orientationGroup"[\s\S]*data-val="portrait"[\s\S]*orientation-option-icon-portrait[\s\S]*data-i18n="output\.portrait"[\s\S]*竖图')
-        self.assertRegex(html, r'id="orientationGroup"[\s\S]*data-val="landscape"[\s\S]*orientation-option-icon-landscape[\s\S]*data-i18n="output\.landscape"[\s\S]*横图')
-        self.assertIn('class="orientation-option-icon orientation-option-icon-square"', html)
-        orientation_controls = re.search(r'id="orientationGroup"[\s\S]*?<select id="orientation" class="hidden">[\s\S]*?</select>', html)
-        self.assertIsNotNone(orientation_controls)
-        self.assertNotIn('data-val="auto"', orientation_controls.group(0))
-        self.assertNotIn('<option value="auto"', orientation_controls.group(0))
-        self.assertRegex(styles, r"#orientationGroup \.radio-btn\s*\{[^}]*gap:\s*4px")
-        self.assertRegex(styles, r"\.orientation-option-icon\s*\{[^}]*width:\s*12px")
-        self.assertRegex(styles, r"\.orientation-option-icon\s*\{[^}]*stroke:\s*currentColor")
+        resolution = re.search(r'<select id="resolution" class="control compact-output-select">([\s\S]*?)</select>', html)
+        self.assertIsNotNone(resolution)
+        self.assertRegex(resolution.group(1), r'<option value="standard" selected>1K</option>')
+        self.assertRegex(resolution.group(1), r'<option value="2k">2K</option>')
+        self.assertRegex(resolution.group(1), r'<option value="4k">4K</option>')
+        self.assertNotIn('<option value="auto"', resolution.group(1))
+
+        orientation = re.search(r'<select id="orientation" class="control compact-output-select">([\s\S]*?)</select>', html)
+        self.assertIsNotNone(orientation)
+        self.assertRegex(orientation.group(1), r'<option value="square" selected[^>]*>方形</option>')
+        self.assertRegex(orientation.group(1), r'<option value="portrait"[^>]*>竖图</option>')
+        self.assertRegex(orientation.group(1), r'<option value="landscape"[^>]*>横图</option>')
+        self.assertNotIn('<option value="auto"', orientation.group(1))
+        self.assertNotIn('id="resolutionGroup"', html)
+        self.assertNotIn('id="orientationGroup"', html)
         self.assertIn('DEFAULT_RESOLUTION = "standard"', script)
         self.assertIn('DEFAULT_RATIO = "1:1"', script)
         self.assertIn('DEFAULT_ORIENTATION = "square"', script)
         self.assertIn("syncRatioAndOrientation", script)
+
     def test_background_control_is_removed_and_quantity_sits_with_quality(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         script = self._frontend_script_source()
@@ -2449,20 +2457,21 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertNotIn("<span>背景</span>", html)
         self.assertNotIn("els.background", script)
         self.assertNotIn('form.append("background"', script)
-        self.assertRegex(html, r'class="field-pair full-width quantity-quality-row"[\s\S]*id="quality"[\s\S]*id="quantityGroup"')
+        self.assertRegex(html, r'class="field-pair full-width quantity-quality-row"[\s\S]*id="quality"[\s\S]*id="nInput"')
         self.assertRegex(styles, r"\.field-pair\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\) minmax\(0,\s*1fr\)")
+
     def test_custom_size_panel_is_inline_mode_with_validation(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
         self.assertIn('id="settingsGrid"', html)
-        self.assertRegex(html, r'class="field-group full-width custom-size-control"[\s\S]*id="sizeModeGroup"[\s\S]*data-custom-size-mode="preset"[\s\S]*data-custom-size-mode="custom"')
+        self.assertRegex(html, r'class="field-group full-width custom-size-control"[\s\S]*id="sizeModeSelect"[\s\S]*value="preset" selected[\s\S]*value="custom"')
         self.assertRegex(
             html,
             r'class="field-group full-width custom-size-control"[\s\S]*id="customSizeToggle"[\s\S]*</div>\s*'
-            r'<div class="field orientation-field">[\s\S]*id="orientationGroup"[\s\S]*</div>\s*'
-            r'<div class="field resolution-field">[\s\S]*id="resolutionGroup"[\s\S]*</div>\s*'
+            r'<div class="field orientation-field">[\s\S]*id="orientation"[\s\S]*</div>\s*'
+            r'<div class="field resolution-field">[\s\S]*id="resolution"[\s\S]*</div>\s*'
             r'<div id="customSize" class="custom-size hidden"[\s\S]*class="custom-size-main"[\s\S]*class="field custom-ratio-field"',
         )
         self.assertRegex(html, r'id="customSizeToggle" class="hidden"')
@@ -2496,14 +2505,14 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertNotIn('class="switch"', html)
         self.assertNotIn('class="slider round"', html)
         self.assertIn("settingsGrid: document.querySelector", script)
-        self.assertIn("sizeModeGroup: document.querySelector", script)
+        self.assertIn("sizeModeSelect: document.querySelector", script)
         self.assertIn("customRatioWidth: document.querySelector", script)
         self.assertIn("customRatioHeight: document.querySelector", script)
         self.assertIn("customRatioFromImageButton: document.querySelector", script)
         self.assertIn("swapCustomSizeButton: document.querySelector", script)
         self.assertIn("customSizeHint: document.querySelector", script)
         self.assertIn("function setCustomSizeMode", script)
-        self.assertIn("function handleSizeModeEvent", script)
+        self.assertIn("function handleSizeModeChange", script)
         self.assertIn("function handleCustomRatioInput", script)
         self.assertIn("async function applyFirstReferenceImageAspectRatio", script)
         self.assertIn("function updateCustomRatioReferenceButtonState", script)
@@ -3237,8 +3246,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('/static/app.js?v=runtime-640', html)
-        self.assertIn('/static/styles.css?v=runtime-640', html)
+        self.assertIn('/static/app.js?v=runtime-641', html)
+        self.assertIn('/static/styles.css?v=runtime-641', html)
         self.assertIn('id="pasteClipboardButton"', html)
         self.assertIn('id="statusText"', html)
         self.assertRegex(
@@ -3683,8 +3692,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn("/static/app.js?v=runtime-640", html)
-        self.assertIn("/static/styles.css?v=runtime-640", html)
+        self.assertIn("/static/app.js?v=runtime-641", html)
+        self.assertIn("/static/styles.css?v=runtime-641", html)
         self.assertIn('const THEME_STORAGE_KEY = "codex-image-theme-preference";', script)
         self.assertIn('themePreference: "system"', script)
         self.assertIn('call(methods, "restoreThemePreference")', script)

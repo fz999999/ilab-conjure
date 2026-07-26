@@ -13,7 +13,6 @@ import {
 import {
   closeCompressionPopover,
   currentQuantity,
-  handleOutputFormatDoubleClick,
   openCompressionPopover,
   syncRadioButtons,
   updateCompression,
@@ -32,7 +31,7 @@ import {
   applyFirstReferenceImageAspectRatio,
   handleCustomDimensionInput,
   handleCustomRatioInput,
-  handleSizeModeEvent,
+  handleSizeModeChange,
   swapCustomSizeDimensions,
   syncSizeControlsFromSize,
   updateCustomSize,
@@ -137,7 +136,7 @@ export function bindFormControlEvents(): void {
       saveCurrentModelParameterDraft();
     });
   });
-  els.sizeModeGroup?.addEventListener("click", handleSizeModeEvent);
+  els.sizeModeSelect?.addEventListener("change", handleSizeModeChange);
   els.swapCustomSizeButton?.addEventListener("click", swapCustomSizeDimensions);
   els.customRatioFromImageButton?.addEventListener("click", (event: any) => {
     void applyFirstReferenceImageAspectRatio(event);
@@ -145,7 +144,7 @@ export function bindFormControlEvents(): void {
   if (els.customSizeToggle) {
     els.customSizeToggle.addEventListener("change", updateSizeFromPreset);
   }
-  els.outputFormatGroup?.addEventListener("dblclick", handleOutputFormatDoubleClick);
+  els.compressionTrigger?.addEventListener("click", openCompressionPopover);
 }
 
 export function setMode(mode: any): void {
@@ -200,11 +199,10 @@ export function initFormControlsFeature(): void {
     renderMainModelOptions,
     selectMainModelOption,
     handleMainModelKeydown,
-    handleSizeModeEvent,
+    handleSizeModeChange,
     handleCustomDimensionInput,
     handleCustomRatioInput,
     applyFirstReferenceImageAspectRatio,
     swapCustomSizeDimensions,
-    handleOutputFormatDoubleClick,
-  });
+    });
 }

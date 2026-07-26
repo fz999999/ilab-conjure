@@ -420,6 +420,7 @@ class WebUIRefactorContractTests(unittest.TestCase):
                 ("/api/reference-assets/{asset_id}/image", "GET"),
                 ("/api/reference-files/recent", "GET"),
                 ("/api/generation-catalog", "GET"),
+                ("/api/provider-balances/{provider_id}", "GET"),
                 ("/api/generate", "POST"),
                 ("/api/edit", "POST"),
             }

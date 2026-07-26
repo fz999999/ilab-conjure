@@ -14,8 +14,7 @@ class WebUIStaticModelProviderTests(WebUIStaticTestCase):
         family_selector = html[html.index('id="modelFamilyOptions"'):html.index('<div class="sidebar-search">')]
         nav = html[html.index('<div class="nav-actions">'):html.index('<div id="taskNotificationCenter"')]
         output = html[html.index('<div id="settingsGrid"'):html.index('<div class="field-group full-width custom-size-control">')]
-        self.assertIn("iLab", brand)
-        self.assertIn("CONJURE", brand)
+        self.assertIn("大川生图站", brand)
         self.assertNotIn('modelFamilyButton', brand)
         self.assertIn('role="radiogroup"', family_selector)
         self.assertIn('data-i18n-attr="aria-label:modelSelection.family"', family_selector)
@@ -100,7 +99,7 @@ class WebUIStaticModelProviderTests(WebUIStaticTestCase):
         self.assertIn("saveCurrentModelParameterDraft", form_controls)
         self.assertIn('addEventListener("change"', form_controls)
         self.assertGreaterEqual(model_selection.count("restoreCurrentModelParameterDraft"), 2)
-        preset_block = form_controls[form_controls.index("[els.resolution, els.ratio, els.orientation]"):form_controls.index("els.sizeModeGroup")]
+        preset_block = form_controls[form_controls.index("[els.resolution, els.ratio, els.orientation]"):form_controls.index("els.sizeModeSelect")]
         self.assertGreaterEqual(preset_block.count("saveCurrentModelParameterDraft"), 2)
 
     def test_programmatic_size_actions_persist_the_active_model_draft(self) -> None:
@@ -123,7 +122,7 @@ class WebUIStaticModelProviderTests(WebUIStaticTestCase):
     def test_brand_accessible_name_is_not_fixed_to_gpt(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         brand = html[html.index('<div class="brand"'):html.index('id="modelFamilyOptions"')]
-        self.assertIn('aria-label="iLab CONJURE"', brand)
+        self.assertIn('aria-label="大川生图站"', brand)
         self.assertNotIn('aria-label="iLab GPT CONJURE"', brand)
 
     def test_legacy_provider_and_codex_mode_compatibility_recompute_catalog_selection(self) -> None:

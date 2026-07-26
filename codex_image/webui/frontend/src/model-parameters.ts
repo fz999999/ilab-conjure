@@ -792,7 +792,7 @@ export function renderModelParameters(
   state.customSizeTransitionSeq += 1;
   state.customSizeMode = visibility.customSize;
   const legacyElements = [
-    els.sizeModeGroup?.closest(".custom-size-control"),
+    els.sizeModeSelect?.closest(".custom-size-control"),
     els.orientation?.closest(".orientation-field"),
     els.resolution?.closest(".resolution-field"),
     els.ratio?.closest(".ratio-field"),

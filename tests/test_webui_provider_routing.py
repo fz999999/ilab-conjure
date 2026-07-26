@@ -20,7 +20,8 @@ class WebUIProviderRoutingTests(unittest.TestCase):
 
     def assert_no_secret_field(self, value) -> None:
         if isinstance(value, dict):
-            self.assertNotIn("api_key", value)
+            for field in ("api_key", "balance_url", "balance_token", "balance_user_id"):
+                self.assertNotIn(field, value)
             for item in value.values():
                 self.assert_no_secret_field(item)
         elif isinstance(value, list):
@@ -61,6 +62,43 @@ class WebUIProviderRoutingTests(unittest.TestCase):
                 ("codex-gpt-image-2-responses", "codex_responses", "gpt_codex_responses"),
             ],
         )
+
+    def test_catalog_marks_balance_configuration_without_exposing_credentials(self) -> None:
+        settings = {
+            "schema_version": 2,
+            "active_provider_id": "relay",
+            "default_provider_by_model": {"gpt-image-2": "relay"},
+            "providers": [{
+                "id": "relay",
+                "name": "Relay",
+                "base_url": "https://relay.example/v1",
+                "api_key": "unit-test-secret",
+                "auth_scheme": "bearer",
+                "concurrency": 2,
+                "balance_url": "https://balance.example",
+                "balance_token": "server-only-token",
+                "balance_user_id": "42",
+                "bindings": [{
+                    "id": "relay-images",
+                    "canonical_model_id": "gpt-image-2",
+                    "remote_model_id": "relay/gpt-image-2",
+                    "protocol_profile": "openai_images",
+                    "parameter_codec": "gpt_openai_images",
+                    "operations": ["generate", "edit"],
+                }],
+            }],
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = TestClient(
+                self._app(Path(tmp), api_settings=settings)
+            ).get("/api/generation-catalog").json()
+
+        relay = next(provider for provider in payload["providers"] if provider["id"] == "relay")
+        self.assertTrue(relay["balance_configured"])
+        self.assert_no_secret_field(payload)
+        serialized = json.dumps(payload)
+        self.assertNotIn("server-only-token", serialized)
+        self.assertNotIn("balance.example", serialized)
 
     def test_explicit_codex_responses_binding_is_snapshotted_without_global_mode_change(self) -> None:
         parameters = {"canvas.size": "1024x1024", "output.count": 1}

@@ -358,6 +358,38 @@
   display: block;
 }
 
+.access-logout-form {
+  order: 3;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.access-logout-button {
+  height: var(--top-nav-control-height);
+  min-height: var(--top-nav-control-height);
+  padding: 0 15px;
+  border: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
+  border-radius: var(--top-nav-control-radius);
+  background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+  color: var(--text-secondary);
+  font: 500 var(--top-nav-control-font-size)/1 inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--motion-base), border-color var(--motion-base), color var(--motion-base), box-shadow var(--motion-base);
+}
+
+.access-logout-button:hover {
+  border-color: color-mix(in srgb, var(--primary) 45%, transparent);
+  background: var(--primary-light);
+  color: var(--primary-strong);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.access-logout-button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary) 28%, transparent);
+  outline-offset: 2px;
+}
+
 .auth-source-switcher {
   order: 1;
   flex: 0 1 auto;
@@ -434,6 +466,45 @@
 .generation-provider-select-shell .themed-select-trigger:disabled {
   color: var(--muted);
   cursor: not-allowed;
+}
+
+.generation-provider-select-shell .themed-select-value {
+  flex: 0 1 auto;
+}
+
+.generation-provider-select-shell .themed-select-caret {
+  margin-left: auto;
+}
+
+.generation-provider-balance {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: 9px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.generation-provider-balance::before {
+  content: "·";
+  color: color-mix(in srgb, var(--muted) 62%, transparent);
+}
+
+.generation-provider-balance.is-loading {
+  font-weight: 500;
+}
+
+.generation-provider-balance.is-error {
+  color: color-mix(in srgb, var(--warning, #b7791f) 72%, var(--muted));
+  font-weight: 500;
+}
+
+.generation-provider-balance[hidden] {
+  display: none;
 }
 
 .generation-provider-select-shell .themed-select-menu {
@@ -519,7 +590,8 @@
   .queue-button,
   .theme-option,
   .auth-source-button,
-  .auth-source-settings-button {
+  .auth-source-settings-button,
+  .access-logout-button {
     transition: none;
   }
 }

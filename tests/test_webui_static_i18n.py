@@ -7,14 +7,14 @@ from tests.webui_helpers import WebUIStaticTestCase
 
 
 class WebUIStaticI18nTests(WebUIStaticTestCase):
-    def test_history_document_title_uses_multimodel_product_brand_in_every_locale(self) -> None:
+    def test_history_document_title_uses_dachuan_brand_in_every_locale(self) -> None:
         locale_paths = sorted(Path("codex_image/webui/frontend/src/i18n").glob("*.ts"))
         locale_paths = [path for path in locale_paths if path.name not in {"types.ts", "dictionaries.ts"}]
 
         self.assertEqual(13, len(locale_paths))
         for path in locale_paths:
             source = path.read_text(encoding="utf-8")
-            self.assertRegex(source, r'"history\.documentTitle": "[^"]*iLab CONJURE"')
+            self.assertRegex(source, r'"history\.documentTitle": "[^"]*大川生图站"')
             self.assertNotIn("iLab GPT CONJURE", source)
             self.assertNotIn("iLabGPTCONJURE", source)
 

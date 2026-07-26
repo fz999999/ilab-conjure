@@ -117,6 +117,7 @@ from .settings_store import (
     _parse_color_palette_import,
 )
 from .context import WebUIContext
+from .access_gate import install_password_access_gate
 from .events import event_key, event_snapshot, queue_snapshot, queued_or_running_task_ids, sse_message, task_event
 from .routes import register_webui_routes
 from .executor import (
@@ -207,6 +208,8 @@ def create_app(
     queue_path: Path | str | None = None,
     auto_start_queue: bool = True,
     auto_retry: bool = False,
+    access_password_hash: str | None = None,
+    access_session_secret: str | None = None,
 ) -> FastAPI:
     settings = WebUISettings(Path(webui_settings_path))
     configured_paths = settings.read_paths()
@@ -244,7 +247,16 @@ def create_app(
     make_client = client_factory or (lambda: _client_for_auth_source(auth_settings.read_source(), api_settings=api_settings))
     check_auth = auth_checker or (lambda: bool(_auth_status(auth_settings.read_source(), api_settings=api_settings)["auth_available"]))
 
-    app = FastAPI(title="iLab CONJURE", lifespan=queue_lifespan)
+    if bool(access_password_hash) != bool(access_session_secret):
+        raise ValueError("access password hash and session secret must be configured together")
+
+    app = FastAPI(title="大川生图站", lifespan=queue_lifespan)
+    if access_password_hash and access_session_secret:
+        install_password_access_gate(
+            app,
+            password_hash=access_password_hash,
+            session_secret=access_session_secret,
+        )
     ctx = WebUIContext(
         app=app,
         storage=storage,
@@ -286,7 +298,7 @@ def create_app(
         if index_path.exists():
             return FileResponse(index_path, headers={"Cache-Control": "no-store"})
         return HTMLResponse(
-            "<!doctype html><title>iLab CONJURE</title><h1>iLab CONJURE</h1>",
+            "<!doctype html><title>大川生图站</title><h1>大川生图站</h1>",
             headers={"Cache-Control": "no-store"},
         )
 
@@ -296,7 +308,7 @@ def create_app(
         if history_path.exists():
             return FileResponse(history_path, headers={"Cache-Control": "no-store"})
         return HTMLResponse(
-            "<!doctype html><title>History - iLab CONJURE</title><h1>History</h1>",
+            "<!doctype html><title>历史库 - 大川生图站</title><h1>历史库</h1>",
             headers={"Cache-Control": "no-store"},
         )
 

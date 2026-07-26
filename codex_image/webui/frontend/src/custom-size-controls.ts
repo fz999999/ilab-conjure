@@ -36,14 +36,16 @@ function measuredElementHeight(element: any): number {
   return Math.ceil(element.getBoundingClientRect().height);
 }
 
-export function handleSizeModeEvent(event: any): void {
-  const button = event.target.closest?.("[data-custom-size-mode]");
-  if (!button || !els.sizeModeGroup?.contains(button)) return;
-  setCustomSizeMode(button.dataset.customSizeMode === "custom");
+export function handleSizeModeChange(event: any): void {
+  const select = event?.currentTarget || event?.target;
+  if (!select || select !== els.sizeModeSelect) return;
+  setCustomSizeMode(select.value === "custom");
 }
 
 export function setCustomSizeMode(isCustom: any): void {
-  if (els.customSizeToggle) els.customSizeToggle.checked = Boolean(isCustom);
+  const custom = Boolean(isCustom);
+  if (els.customSizeToggle) els.customSizeToggle.checked = custom;
+  if (els.sizeModeSelect) els.sizeModeSelect.value = custom ? "custom" : "preset";
   updateSizeFromPreset();
   saveCurrentModelParameterDraft();
 }
@@ -542,11 +544,7 @@ export function updateCustomSize(): void {
   const isCustom = els.size?.value === "custom";
   transitionCustomSizeMode(isCustom);
   if (els.customSizeToggle) els.customSizeToggle.checked = isCustom;
-  els.sizeModeGroup?.querySelectorAll("[data-custom-size-mode]").forEach((button: any) => {
-    const active = button.dataset.customSizeMode === (isCustom ? "custom" : "preset");
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-pressed", active ? "true" : "false");
-  });
+  if (els.sizeModeSelect) els.sizeModeSelect.value = isCustom ? "custom" : "preset";
   const message = isCustom ? customSizeValidationMessage() : "";
   els.customSize?.classList.toggle("has-error", Boolean(message));
   if (els.customSizeHint) {

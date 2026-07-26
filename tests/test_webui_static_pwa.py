@@ -31,14 +31,14 @@ class WebUIPWATests(unittest.TestCase):
         self.assertIn("window.isSecureContext", pwa_script_source)
         self.assertIn('navigator.serviceWorker.register("/service-worker.js", { scope: "/" })', pwa_script_source)
 
-    def test_web_app_manifest_uses_rabbit_brand_identity_and_installable_metadata(self) -> None:
+    def test_web_app_manifest_uses_dachuan_brand_identity_and_installable_metadata(self) -> None:
         manifest_path = Path("codex_image/webui/static/manifest.webmanifest")
         self.assertTrue(manifest_path.exists())
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 
         self.assertEqual(manifest["id"], "/")
-        self.assertEqual(manifest["name"], "iLab CONJURE")
-        self.assertEqual(manifest["short_name"], "iLab CONJURE")
+        self.assertEqual(manifest["name"], "大川生图站")
+        self.assertEqual(manifest["short_name"], "大川生图站")
         self.assertEqual(manifest["start_url"], "/")
         self.assertEqual(manifest["scope"], "/")
         self.assertEqual(manifest["display"], "standalone")
@@ -86,13 +86,13 @@ class WebUIPWATests(unittest.TestCase):
         self.assertTrue(worker_path.exists())
         source = worker_path.read_text(encoding="utf-8")
 
-        self.assertIn('const CACHE_NAME = "ilab-conjure-shell-v107";', source)
+        self.assertIn('const CACHE_NAME = "ilab-conjure-shell-v109";', source)
         self.assertIn('"/"', source)
         self.assertIn('"/history"', source)
         self.assertIn('"/manifest.webmanifest"', source)
-        self.assertIn('"/static/app.js?v=runtime-640"', source)
+        self.assertIn('"/static/app.js?v=runtime-641"', source)
         self.assertIn('"/static/history.js?v=history-71"', source)
-        self.assertIn('"/static/styles.css?v=runtime-640"', source)
+        self.assertIn('"/static/styles.css?v=runtime-641"', source)
         self.assertIn("request.mode === \"navigate\"", source)
         self.assertIn("caches.match(request).then", source)
         self.assertIn("catch(() => caches.match(request, { ignoreSearch: true }))", source)
@@ -111,7 +111,7 @@ class WebUIPWATests(unittest.TestCase):
             manifest_response = client.get("/manifest.webmanifest")
             self.assertEqual(manifest_response.status_code, 200)
             self.assertEqual(manifest_response.headers["content-type"].split(";")[0], "application/manifest+json")
-            self.assertEqual(manifest_response.json()["name"], "iLab CONJURE")
+            self.assertEqual(manifest_response.json()["name"], "大川生图站")
             self.assertEqual(manifest_response.headers["cache-control"], "no-store")
             self.assertEqual(client.head("/manifest.webmanifest").status_code, 200)
 

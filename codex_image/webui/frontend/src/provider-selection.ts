@@ -7,6 +7,7 @@ import type {
 import { getLegacyBridge } from "./state";
 import { translate } from "./i18n";
 import { syncThemedSelect } from "./themed-select";
+import { syncSelectedProviderBalance } from "./provider-balance";
 
 export interface EligibleProviderBinding {
   provider: CatalogProvider;
@@ -200,6 +201,7 @@ export function renderProviderSelection(): void {
     syncThemedSelect(select);
   }
   if (els.runButton) els.runButton.disabled = !resolved;
+  syncSelectedProviderBalance(state.selectedProviderId);
 }
 
 export function selectGenerationProvider(selectionOrProviderId: string): void {

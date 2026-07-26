@@ -39,7 +39,7 @@ class WebUIStaticTaskTests(WebUIStaticTestCase):
         history_html = Path("codex_image/webui/static/history.html").read_text(encoding="utf-8")
         history_source = Path("codex_image/webui/frontend/src/history.ts").read_text(encoding="utf-8")
 
-        self.assertIn('<link rel="icon" type="image/svg+xml" href="/static/brand/favicon.svg" />', history_html)
+        self.assertIn('<link rel="icon" type="image/png" sizes="64x64" href="/static/brand/dachuan-logo-64.png" />', history_html)
         self.assertIn('<main class="history-page"', history_html)
         self.assertIn('id="historySearch"', history_html)
         self.assertIn('id="historyMonthList"', history_html)

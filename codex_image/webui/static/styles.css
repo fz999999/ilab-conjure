@@ -250,33 +250,18 @@ button, input, select, textarea {
   width: 42px;
   height: 42px;
   flex: 0 0 auto;
-  background:
-    radial-gradient(circle at 58% 48%, rgba(247, 213, 157, 0.42) 0 10%, transparent 11%),
-    linear-gradient(145deg, #2f604f 0%, #4d8b72 66%, #b89155 100%);
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 9px 19px rgba(51, 93, 77, 0.18);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--line) 76%, rgba(255, 255, 255, 0.72));
+  border-radius: 14px;
+  background: var(--surface-soft);
+  box-shadow: 0 8px 20px rgba(31, 67, 54, 0.16);
 }
 
-.brand-rabbit-logo {
-  color: #ffffff;
-  fill: currentColor;
-  filter: drop-shadow(0 1px 0 rgba(16, 32, 27, 0.18));
-}
-
-.brand-rabbit-cutout {
-  fill: #457b66;
-}
-
-.brand-rabbit-spark {
-  color: var(--dark-accent, #d3b776);
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.55;
-  stroke-linecap: round;
+.brand-logo-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .brand-title {
@@ -2457,6 +2442,38 @@ button, input, select, textarea {
   display: block;
 }
 
+.access-logout-form {
+  order: 3;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.access-logout-button {
+  height: var(--top-nav-control-height);
+  min-height: var(--top-nav-control-height);
+  padding: 0 15px;
+  border: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
+  border-radius: var(--top-nav-control-radius);
+  background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+  color: var(--text-secondary);
+  font: 500 var(--top-nav-control-font-size)/1 inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--motion-base), border-color var(--motion-base), color var(--motion-base), box-shadow var(--motion-base);
+}
+
+.access-logout-button:hover {
+  border-color: color-mix(in srgb, var(--primary) 45%, transparent);
+  background: var(--primary-light);
+  color: var(--primary-strong);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.access-logout-button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary) 28%, transparent);
+  outline-offset: 2px;
+}
+
 .auth-source-switcher {
   order: 1;
   flex: 0 1 auto;
@@ -2533,6 +2550,45 @@ button, input, select, textarea {
 .generation-provider-select-shell .themed-select-trigger:disabled {
   color: var(--muted);
   cursor: not-allowed;
+}
+
+.generation-provider-select-shell .themed-select-value {
+  flex: 0 1 auto;
+}
+
+.generation-provider-select-shell .themed-select-caret {
+  margin-left: auto;
+}
+
+.generation-provider-balance {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: 9px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.generation-provider-balance::before {
+  content: "·";
+  color: color-mix(in srgb, var(--muted) 62%, transparent);
+}
+
+.generation-provider-balance.is-loading {
+  font-weight: 500;
+}
+
+.generation-provider-balance.is-error {
+  color: color-mix(in srgb, var(--warning, #b7791f) 72%, var(--muted));
+  font-weight: 500;
+}
+
+.generation-provider-balance[hidden] {
+  display: none;
 }
 
 .generation-provider-select-shell .themed-select-menu {
@@ -2618,7 +2674,8 @@ button, input, select, textarea {
   .queue-button,
   .theme-option,
   .auth-source-button,
-  .auth-source-settings-button {
+  .auth-source-settings-button,
+  .access-logout-button {
     transition: none;
   }
 }
@@ -6840,6 +6897,34 @@ select.themed-select-native {
   font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);
+}
+
+.compact-output-select {
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  padding-right: 34px;
+  cursor: pointer;
+}
+
+.compact-select-action-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.compact-select-action {
+  min-height: 36px;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+
+.compact-select-action b {
+  margin-left: 4px;
+  color: var(--primary-strong);
+  font-variant-numeric: tabular-nums;
 }
 
 #orientationGroup .radio-btn {
@@ -12646,11 +12731,6 @@ button:disabled {
     width: 36px;
     height: 36px;
     border-radius: 12px;
-  }
-
-  .brand-rabbit-logo {
-    width: 27px;
-    height: 27px;
   }
 
   .sidebar-resize-handle,

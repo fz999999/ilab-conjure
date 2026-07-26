@@ -511,5 +511,73 @@ class ProviderSettingsV2Tests(unittest.TestCase):
             self.settings.read()
 
 
+    def test_balance_credentials_are_persisted_but_never_exposed_publicly(self) -> None:
+        provider = self.provider(
+            balance_url="https://relay.example",
+            balance_token="server-only-token",
+            balance_user_id="42",
+        )
+
+        written = self.settings.write(self.v2_payload(providers=[provider]))
+        public_provider = self.settings.public_settings()["providers"][0]
+
+        self.assertEqual(written["providers"][0]["balance_url"], "https://relay.example")
+        self.assertEqual(written["providers"][0]["balance_token"], "server-only-token")
+        self.assertEqual(written["providers"][0]["balance_user_id"], "42")
+        self.assertTrue(public_provider["balance_configured"])
+        self.assertNotIn("balance_url", public_provider)
+        self.assertNotIn("balance_token", public_provider)
+        self.assertNotIn("balance_user_id", public_provider)
+        self.assertNotIn("server-only-token", json.dumps(self.settings.public_settings()))
+
+    def test_provider_update_preserves_balance_credentials_when_fields_are_omitted(self) -> None:
+        self.settings.write(
+            self.v2_payload(
+                providers=[self.provider(
+                    balance_protocol="sub2api",
+                    balance_url="https://relay.example/v1",
+                    balance_token="server-only-token",
+                    balance_user_id="42",
+                )]
+            )
+        )
+
+        updated = self.settings.write(
+            self.v2_payload(providers=[self.provider(name="Relay Renamed")])
+        )
+        provider = updated["providers"][0]
+
+        self.assertEqual(provider["name"], "Relay Renamed")
+        self.assertEqual(provider["balance_protocol"], "sub2api")
+        self.assertEqual(provider["balance_url"], "https://relay.example/v1")
+        self.assertEqual(provider["balance_token"], "server-only-token")
+        self.assertEqual(provider["balance_user_id"], "42")
+
+    def test_wisart_balance_uses_provider_api_credentials(self) -> None:
+        provider = self.provider(
+            base_url="https://wisart.kuaileshifu.com/v1",
+            api_key="wisart-api-key",
+            balance_protocol="wisart",
+        )
+
+        written = self.settings.write(self.v2_payload(providers=[provider]))
+        public_provider = self.settings.public_settings()["providers"][0]
+
+        self.assertEqual(written["providers"][0]["balance_protocol"], "wisart")
+        self.assertTrue(public_provider["balance_configured"])
+        self.assertNotIn("balance_protocol", public_provider)
+        self.assertNotIn("wisart-api-key", json.dumps(self.settings.public_settings()))
+
+    def test_rejects_unknown_balance_protocol(self) -> None:
+        provider = self.provider(
+            balance_protocol="unknown",
+            balance_url="https://relay.example",
+            balance_token="server-only-token",
+        )
+
+        with self.assertRaisesRegex(ValueError, "unknown_balance_protocol"):
+            self.settings.write(self.v2_payload(providers=[provider]))
+
+
 if __name__ == "__main__":
     unittest.main()

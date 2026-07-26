@@ -124,7 +124,7 @@ export const ES_DICTIONARY: TranslationDictionary = {
     "footer.archiveCount": "Archivo {count}",
     "footer.historyLibrary": "Historia",
     "historyLibrary.openFull": "Abrir biblioteca de historia completa",
-    "history.documentTitle": "Historia - iLab CONJURE",
+    "history.documentTitle": "Historia - 大川生图站",
     "history.back": "Volver al generador",
     "history.title": "Historia",
     "history.loading": "Cargando",

@@ -57,15 +57,15 @@ class WebUIStaticPromptTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
 
         self.assertIn('id="promptFidelity"', html)
-        self.assertRegex(
+        control = re.search(
+            r'<select id="promptFidelity" class="control compact-output-select">([\s\S]*?)</select>',
             html,
-            r'data-val="original" type="button"[^>]*>原文</button>\s*<button class="radio-btn active" data-val="strict" type="button"[^>]*>保真</button>',
         )
-        self.assertIn('value="strict" selected', html)
-        self.assertIn('value="original"', html)
-        self.assertIn('data-val="original"', html)
-        self.assertRegex(html, r'data-val="off" type="button"[^>]*>自动</button>')
-        self.assertRegex(html, r'<option value="off"[^>]*>自动</option>')
+        self.assertIsNotNone(control)
+        self.assertRegex(control.group(1), r'<option value="original"[^>]*>原文</option>')
+        self.assertRegex(control.group(1), r'<option value="strict" selected[^>]*>保真</option>')
+        self.assertRegex(control.group(1), r'<option value="off"[^>]*>自动</option>')
+        self.assertNotIn('id="promptFidelityGroup"', html)
         self.assertNotIn('<option value="off">关闭</option>', html)
         self.assertIn("promptFidelity: document.querySelector", script)
         self.assertIn("function currentPromptFidelity()", script)
@@ -1210,8 +1210,8 @@ console.log(cases.map((color) => readableTextColor(color)).join("\\n"));
         self.assertIn('id="mainModelToggle"', html)
         self.assertIn('id="mainModelOptions"', html)
         self.assertIn('role="listbox"', html)
-        self.assertIn('/static/app.js?v=runtime-640', html)
-        self.assertIn('/static/styles.css?v=runtime-640', html)
+        self.assertIn('/static/app.js?v=runtime-641', html)
+        self.assertIn('/static/styles.css?v=runtime-641', html)
         self.assertIn("mainModel: document.querySelector", script)
         self.assertIn("mainModelCombobox: document.querySelector", script)
         self.assertIn("mainModelToggle: document.querySelector", script)

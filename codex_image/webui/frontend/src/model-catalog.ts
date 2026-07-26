@@ -254,6 +254,7 @@ export async function refreshGenerationCatalog(): Promise<void> {
     state.selectedProviderId = null;
     state.selectedProviderBindingId = null;
   }
+  state.providerBalanceSelectedProviderId = null;
   renderModelSelectors();
   renderProviderSelection();
   getLegacyBridge().methods.renderCurrentModelParameters?.();

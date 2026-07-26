@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "iLab CONJURE",
-  "short_name": "iLab CONJURE",
-  "description": "Local image generation and editing workspace.",
+  "name": "大川生图站",
+  "short_name": "大川生图站",
+  "description": "大川生图站，支持图片生成与编辑。",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

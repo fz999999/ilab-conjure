@@ -104,6 +104,7 @@ def generation_catalog_payload(ctx: WebUIContext) -> dict[str, Any]:
             "builtin": False,
             "available": bool(provider.get("api_key_set")) and runtime_available,
             "api_key_set": bool(provider.get("api_key_set")),
+            "balance_configured": bool(provider.get("balance_configured")),
             "base_url": provider.get("base_url", ""),
             "concurrency": provider.get("concurrency", 1),
             "bindings": bindings,

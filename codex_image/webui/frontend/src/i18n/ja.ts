@@ -124,7 +124,7 @@ export const JA_DICTIONARY: TranslationDictionary = {
     "footer.archiveCount": "アーカイブ {count}",
     "footer.historyLibrary": "履歴",
     "historyLibrary.openFull": "履歴ライブラリ全体を開く",
-    "history.documentTitle": "履歴 - iLab CONJURE",
+    "history.documentTitle": "履歴 - 大川生图站",
     "history.back": "ジェネレーターに戻る",
     "history.title": "履歴",
     "history.loading": "読み込み中",

@@ -406,7 +406,7 @@
       settingsGrid: document.querySelector("#settingsGrid"),
       model: document.querySelector("#model"),
       size: document.querySelector("#size"),
-      sizeModeGroup: document.querySelector("#sizeModeGroup"),
+      sizeModeSelect: document.querySelector("#sizeModeSelect"),
       customSizeToggle: document.querySelector("#customSizeToggle"),
       nInput: document.querySelector("#nInput"),
       nValue: document.querySelector("#nValue"),
@@ -426,7 +426,8 @@
       quality: document.querySelector("#quality"),
       outputFormat: document.querySelector("#outputFormat"),
       outputFormatField: document.querySelector("#outputFormatField"),
-      outputFormatGroup: document.querySelector("#outputFormatGroup"),
+      compressionTrigger: document.querySelector("#compressionTrigger"),
+      compressionTriggerValue: document.querySelector("#compressionTriggerValue"),
       moderation: document.querySelector("#moderation"),
       compressionPopover: document.querySelector("#compressionPopover"),
       compressionField: document.querySelector("#compressionField"),
@@ -605,7 +606,7 @@
     "footer.archiveCount": "Archive {count}",
     "footer.historyLibrary": "History",
     "historyLibrary.openFull": "Open full history library",
-    "history.documentTitle": "History - iLab CONJURE",
+    "history.documentTitle": "History - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "Back to generator",
     "history.title": "History",
     "history.loading": "Loading",
@@ -1636,7 +1637,7 @@
     "footer.archiveCount": "Archiv {count}",
     "footer.historyLibrary": "Geschichte",
     "historyLibrary.openFull": "\xD6ffnen Sie die vollst\xE4ndige Geschichtsbibliothek",
-    "history.documentTitle": "Geschichte \u2013 iLab CONJURE",
+    "history.documentTitle": "Geschichte \u2013 \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "Zur\xFCck zum Generator",
     "history.title": "Geschichte",
     "history.loading": "Laden",
@@ -2657,7 +2658,7 @@
     "footer.archiveCount": "Archivo {count}",
     "footer.historyLibrary": "Historia",
     "historyLibrary.openFull": "Abrir biblioteca de historia completa",
-    "history.documentTitle": "Historia - iLab CONJURE",
+    "history.documentTitle": "Historia - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "Volver al generador",
     "history.title": "Historia",
     "history.loading": "Cargando",
@@ -3678,7 +3679,7 @@
     "footer.archiveCount": "Archiver {count}",
     "footer.historyLibrary": "Histoire",
     "historyLibrary.openFull": "Ouvrir la biblioth\xE8que d'historique compl\xE8te",
-    "history.documentTitle": "Histoire - iLab CONJURE",
+    "history.documentTitle": "Histoire - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "Retour au g\xE9n\xE9rateur",
     "history.title": "Histoire",
     "history.loading": "Chargement",
@@ -4699,7 +4700,7 @@
     "footer.archiveCount": "\u30A2\u30FC\u30AB\u30A4\u30D6 {count}",
     "footer.historyLibrary": "\u5C65\u6B74",
     "historyLibrary.openFull": "\u5C65\u6B74\u30E9\u30A4\u30D6\u30E9\u30EA\u5168\u4F53\u3092\u958B\u304F",
-    "history.documentTitle": "\u5C65\u6B74 - iLab CONJURE",
+    "history.documentTitle": "\u5C65\u6B74 - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "\u30B8\u30A7\u30CD\u30EC\u30FC\u30BF\u30FC\u306B\u623B\u308B",
     "history.title": "\u5C65\u6B74",
     "history.loading": "\u8AAD\u307F\u8FBC\u307F\u4E2D",
@@ -5720,7 +5721,7 @@
     "footer.archiveCount": "\uBCF4\uAD00\uD568 {count}",
     "footer.historyLibrary": "\uAE30\uB85D",
     "historyLibrary.openFull": "\uC804\uCCB4 \uAE30\uB85D \uB77C\uC774\uBE0C\uB7EC\uB9AC \uC5F4\uAE30",
-    "history.documentTitle": "\uAE30\uB85D - iLab CONJURE",
+    "history.documentTitle": "\uAE30\uB85D - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "\uC0DD\uC131\uAE30\uB85C \uB3CC\uC544\uAC00\uAE30",
     "history.title": "\uAE30\uB85D",
     "history.loading": "\uB85C\uB4DC \uC911",
@@ -6741,7 +6742,7 @@
     "footer.archiveCount": "Arquivo {count}",
     "footer.historyLibrary": "Hist\xF3ria",
     "historyLibrary.openFull": "Abra a biblioteca de hist\xF3rico completa",
-    "history.documentTitle": "Hist\xF3ria - iLab CONJURE",
+    "history.documentTitle": "Hist\xF3ria - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "Voltar ao gerador",
     "history.title": "Hist\xF3ria",
     "history.loading": "Carregando",
@@ -7762,7 +7763,7 @@
     "footer.archiveCount": "\u0410\u0440\u0445\u0438\u0432 {count}",
     "footer.historyLibrary": "\u0418\u0441\u0442\u043E\u0440\u0438\u044F",
     "historyLibrary.openFull": "\u041E\u0442\u043A\u0440\u044B\u0442\u044C \u043F\u043E\u043B\u043D\u0443\u044E \u0431\u0438\u0431\u043B\u0438\u043E\u0442\u0435\u043A\u0443 \u0438\u0441\u0442\u043E\u0440\u0438\u0438",
-    "history.documentTitle": "\u0418\u0441\u0442\u043E\u0440\u0438\u044F - iLab CONJURE",
+    "history.documentTitle": "\u0418\u0441\u0442\u043E\u0440\u0438\u044F - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043A \u0433\u0435\u043D\u0435\u0440\u0430\u0442\u043E\u0440\u0443",
     "history.title": "\u0418\u0441\u0442\u043E\u0440\u0438\u044F",
     "history.loading": "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430",
@@ -8783,7 +8784,7 @@
     "footer.archiveCount": "Archivio {count}",
     "footer.historyLibrary": "Storia",
     "historyLibrary.openFull": "Apri la libreria della cronologia completa",
-    "history.documentTitle": "Storia - iLab CONJURE",
+    "history.documentTitle": "Storia - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "Torniamo al generatore",
     "history.title": "Storia",
     "history.loading": "Caricamento in corso",
@@ -9804,7 +9805,7 @@
     "footer.archiveCount": "\u0938\u0902\u0917\u094D\u0930\u0939 {count}",
     "footer.historyLibrary": "\u0907\u0924\u093F\u0939\u093E\u0938",
     "historyLibrary.openFull": "\u092A\u0942\u0930\u094D\u0923 \u0907\u0924\u093F\u0939\u093E\u0938 \u092A\u0941\u0938\u094D\u0924\u0915\u093E\u0932\u092F \u0916\u094B\u0932\u0947\u0902",
-    "history.documentTitle": "\u0907\u0924\u093F\u0939\u093E\u0938 - iLab CONJURE",
+    "history.documentTitle": "\u0907\u0924\u093F\u0939\u093E\u0938 - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "\u091C\u0947\u0928\u0930\u0947\u091F\u0930 \u0915\u094B \u0932\u094C\u091F\u0947\u0902",
     "history.title": "\u0907\u0924\u093F\u0939\u093E\u0938",
     "history.loading": "\u0932\u094B\u0921 \u0939\u094B \u0930\u0939\u093E \u0939\u0948",
@@ -10825,7 +10826,7 @@
     "footer.archiveCount": "\u4F1A\u8BDD\u5F52\u6863 {count}",
     "footer.historyLibrary": "\u5386\u53F2\u5E93",
     "historyLibrary.openFull": "\u6253\u5F00\u5B8C\u6574\u5386\u53F2\u5E93",
-    "history.documentTitle": "\u5386\u53F2\u5E93 - iLab CONJURE",
+    "history.documentTitle": "\u5386\u53F2\u5E93 - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "\u8FD4\u56DE\u751F\u6210\u9875",
     "history.title": "\u5386\u53F2\u5E93",
     "history.loading": "\u8F7D\u5165\u4E2D",
@@ -11856,7 +11857,7 @@
     "footer.archiveCount": "\u6703\u8A71\u6B78\u6A94{count}",
     "footer.historyLibrary": "\u6B77\u53F2\u5EAB",
     "historyLibrary.openFull": "\u958B\u555F\u5B8C\u6574\u6B77\u53F2\u5EAB",
-    "history.documentTitle": "\u6B77\u53F2\u5EAB - iLab CONJURE",
+    "history.documentTitle": "\u6B77\u53F2\u5EAB - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "\u8FD4\u56DE\u751F\u6210\u9801",
     "history.title": "\u6B77\u53F2\u5EAB",
     "history.loading": "\u8F09\u5165\u4E2D",
@@ -12887,7 +12888,7 @@
     "footer.archiveCount": "\u6703\u8A71\u6B78\u6A94{count}",
     "footer.historyLibrary": "\u6B77\u53F2\u5EAB",
     "historyLibrary.openFull": "\u958B\u555F\u5B8C\u6574\u6B77\u53F2\u5EAB",
-    "history.documentTitle": "\u6B77\u53F2\u5EAB - iLab CONJURE",
+    "history.documentTitle": "\u6B77\u53F2\u5EAB - \u5927\u5DDD\u751F\u56FE\u7AD9",
     "history.back": "\u8FD4\u56DE\u751F\u6210\u9801",
     "history.title": "\u6B77\u53F2\u5EAB",
     "history.loading": "\u8F09\u5165\u4E2D",
@@ -14063,10 +14064,19 @@
     trigger.setAttribute("aria-expanded", "false");
     const value = document.createElement("span");
     value.className = "themed-select-value";
+    const balance = select.id === "generationProviderSelect" ? document.createElement("span") : null;
+    if (balance) {
+      balance.id = "generationProviderBalance";
+      balance.className = "generation-provider-balance";
+      balance.hidden = true;
+      balance.setAttribute("aria-live", "polite");
+      balance.setAttribute("aria-atomic", "true");
+    }
     const caret = document.createElement("span");
     caret.className = "themed-select-caret";
     caret.setAttribute("aria-hidden", "true");
-    trigger.append(value, caret);
+    if (balance) trigger.append(value, balance, caret);
+    else trigger.append(value, caret);
     const menu = document.createElement("div");
     menu.className = "themed-select-menu hidden";
     menu.setAttribute("role", "listbox");
@@ -14572,7 +14582,7 @@
   var DEFAULT_CODEX_MODE = "images";
   var DEFAULT_API_IMAGES_CONCURRENCY = 4;
   var API_SETTINGS_STORAGE_KEY = "codex-image-api-settings";
-  var DEFAULT_DOCUMENT_TITLE = document.title || "iLab CONJURE";
+  var DEFAULT_DOCUMENT_TITLE = document.title || "\u5927\u5DDD\u751F\u56FE\u7AD9";
   var TASK_HISTORY_EXPANDED_GROUP_STORAGE_KEY = "codex-image-task-history-expanded-group";
   function defaultGalleryCategories() {
     return DEFAULT_GALLERY_CATEGORIES.map((category) => ({ ...category }));
@@ -14667,6 +14677,9 @@
       selectedModelId: null,
       selectedProviderId: null,
       selectedProviderBindingId: null,
+      providerBalances: {},
+      providerBalanceRequestSeq: 0,
+      providerBalanceSelectedProviderId: null,
       lastModelByFamily: {},
       lastProviderByModel: {},
       lastProviderSelectionByModel: {},
@@ -31280,6 +31293,89 @@ ${hint}` : hint;
     });
   }
 
+  // codex_image/webui/frontend/src/provider-balance.ts
+  function validAmount(value) {
+    return typeof value === "number" && Number.isFinite(value) && value >= 0;
+  }
+  function formatPoints(value) {
+    const formatted = Number.isInteger(value) ? String(value) : value.toFixed(2).replace(/\.?0+$/, "");
+    return `${formatted} \u79EF\u5206`;
+  }
+  function formatProviderBalance(balance) {
+    if (balance.status === "unavailable") return "";
+    if (balance.status === "loading") return "\u67E5\u8BE2\u4E2D\u2026";
+    if (balance.status === "error") return "\u4F59\u989D\u672A\u77E5";
+    if (balance.unit === "POINTS" && validAmount(balance.remaining)) {
+      return formatPoints(balance.remaining);
+    }
+    return validAmount(balance.remaining_usd) ? `$${balance.remaining_usd.toFixed(2)}` : "\u4F59\u989D\u672A\u77E5";
+  }
+  function balanceElement() {
+    if (typeof document.getElementById !== "function") return null;
+    return document.getElementById("generationProviderBalance");
+  }
+  function renderProviderBalance(providerId) {
+    const { state: state32 } = getLegacyBridge();
+    const balance = providerId ? state32.providerBalances[providerId] || { status: "unavailable" } : { status: "unavailable" };
+    const element2 = balanceElement();
+    if (!element2) return;
+    const text = formatProviderBalance(balance);
+    element2.textContent = text;
+    element2.hidden = !text;
+    element2.dataset.balanceStatus = balance.status;
+    element2.classList.toggle("is-loading", balance.status === "loading");
+    element2.classList.toggle("is-error", balance.status === "error");
+  }
+  function parsedBalance(payload2) {
+    if (payload2.status !== "ok") return { status: "error" };
+    if (payload2.unit === "POINTS" && validAmount(payload2.remaining)) {
+      return { status: "ok", remaining: payload2.remaining, unit: "POINTS" };
+    }
+    if (!validAmount(payload2.remaining_usd)) return { status: "error" };
+    const balance = {
+      status: "ok",
+      remaining_usd: payload2.remaining_usd
+    };
+    if (validAmount(payload2.used_usd)) balance.used_usd = payload2.used_usd;
+    if (validAmount(payload2.total_usd)) balance.total_usd = payload2.total_usd;
+    return balance;
+  }
+  async function refreshProviderBalance(providerId) {
+    const { state: state32 } = getLegacyBridge();
+    const requestSeq = ++state32.providerBalanceRequestSeq;
+    state32.providerBalanceSelectedProviderId = providerId;
+    const provider = state32.generationCatalog?.providers.find((item) => item.id === providerId);
+    if (!providerId || !provider || provider.builtin || !provider.balance_configured) {
+      if (providerId) state32.providerBalances[providerId] = { status: "unavailable" };
+      if (state32.selectedProviderId === providerId) renderProviderBalance(providerId);
+      return;
+    }
+    state32.providerBalances[providerId] = { status: "loading" };
+    if (state32.selectedProviderId === providerId) renderProviderBalance(providerId);
+    try {
+      const response = await fetch(`/api/provider-balances/${encodeURIComponent(providerId)}`, {
+        headers: { Accept: "application/json" }
+      });
+      const payload2 = await response.json();
+      if (!response.ok) throw new Error("provider balance unavailable");
+      if (requestSeq !== state32.providerBalanceRequestSeq || state32.selectedProviderId !== providerId) return;
+      state32.providerBalances[providerId] = parsedBalance(payload2);
+    } catch {
+      if (requestSeq !== state32.providerBalanceRequestSeq || state32.selectedProviderId !== providerId) return;
+      state32.providerBalances[providerId] = { status: "error" };
+    }
+    renderProviderBalance(providerId);
+  }
+  function syncSelectedProviderBalance(providerId) {
+    const { state: state32 } = getLegacyBridge();
+    renderProviderBalance(providerId);
+    if (state32.providerBalanceSelectedProviderId === providerId) {
+      const existing = providerId ? state32.providerBalances[providerId] : void 0;
+      if (!providerId || existing && existing.status !== "unavailable") return;
+    }
+    void refreshProviderBalance(providerId);
+  }
+
   // codex_image/webui/frontend/src/provider-selection.ts
   function providerBindingSelectionKey(providerId, bindingId) {
     return `${providerId}::${bindingId}`;
@@ -31404,6 +31500,7 @@ ${hint}` : hint;
       syncThemedSelect(select);
     }
     if (els43.runButton) els43.runButton.disabled = !resolved;
+    syncSelectedProviderBalance(state32.selectedProviderId);
   }
   function selectGenerationProvider(selectionOrProviderId) {
     const { state: state32 } = getLegacyBridge();
@@ -32528,7 +32625,7 @@ ${hint}` : hint;
     state32.customSizeTransitionSeq += 1;
     state32.customSizeMode = visibility.customSize;
     const legacyElements = [
-      els43.sizeModeGroup?.closest(".custom-size-control"),
+      els43.sizeModeSelect?.closest(".custom-size-control"),
       els43.orientation?.closest(".orientation-field"),
       els43.resolution?.closest(".resolution-field"),
       els43.ratio?.closest(".ratio-field"),
@@ -33065,6 +33162,7 @@ ${hint}` : hint;
       state32.selectedProviderId = null;
       state32.selectedProviderBindingId = null;
     }
+    state32.providerBalanceSelectedProviderId = null;
     renderModelSelectors();
     renderProviderSelection();
     getLegacyBridge().methods.renderCurrentModelParameters?.();
@@ -38922,10 +39020,14 @@ ${galleryText}`;
   function updateCompression() {
     const compressionEnabled = els23.outputFormat.value !== "png";
     els23.compression.disabled = !compressionEnabled;
+    els23.compressionTrigger?.classList.toggle("hidden", !compressionEnabled);
+    if (els23.compressionTrigger) els23.compressionTrigger.disabled = !compressionEnabled;
     if (!compressionEnabled) {
       closeCompressionPopover();
     }
-    els23.compressionValue.textContent = `${els23.compression.value}%`;
+    const compressionLabel = `${els23.compression.value}%`;
+    els23.compressionValue.textContent = compressionLabel;
+    if (els23.compressionTriggerValue) els23.compressionTriggerValue.textContent = compressionLabel;
     updateRangeProgress(els23.compression);
   }
   function openCompressionPopover() {
@@ -38937,11 +39039,6 @@ ${galleryText}`;
     if (!els23.compressionPopover) return;
     els23.compressionPopover.classList.add("hidden");
     els23.compressionPopover.setAttribute("aria-hidden", "true");
-  }
-  function handleOutputFormatDoubleClick(event) {
-    const button = event.target.closest("[data-val]");
-    if (!button || !["jpeg", "webp"].includes(button.dataset.val)) return;
-    openCompressionPopover();
   }
   function syncRadioButtons(...selects) {
     selects.filter(Boolean).forEach((select) => {
@@ -39317,13 +39414,15 @@ ${galleryText}`;
     if (!element2) return 0;
     return Math.ceil(element2.getBoundingClientRect().height);
   }
-  function handleSizeModeEvent(event) {
-    const button = event.target.closest?.("[data-custom-size-mode]");
-    if (!button || !els26.sizeModeGroup?.contains(button)) return;
-    setCustomSizeMode(button.dataset.customSizeMode === "custom");
+  function handleSizeModeChange(event) {
+    const select = event?.currentTarget || event?.target;
+    if (!select || select !== els26.sizeModeSelect) return;
+    setCustomSizeMode(select.value === "custom");
   }
   function setCustomSizeMode(isCustom) {
-    if (els26.customSizeToggle) els26.customSizeToggle.checked = Boolean(isCustom);
+    const custom = Boolean(isCustom);
+    if (els26.customSizeToggle) els26.customSizeToggle.checked = custom;
+    if (els26.sizeModeSelect) els26.sizeModeSelect.value = custom ? "custom" : "preset";
     updateSizeFromPreset();
     saveCurrentModelParameterDraft2();
   }
@@ -39756,11 +39855,7 @@ ${galleryText}`;
     const isCustom = els26.size?.value === "custom";
     transitionCustomSizeMode(isCustom);
     if (els26.customSizeToggle) els26.customSizeToggle.checked = isCustom;
-    els26.sizeModeGroup?.querySelectorAll("[data-custom-size-mode]").forEach((button) => {
-      const active = button.dataset.customSizeMode === (isCustom ? "custom" : "preset");
-      button.classList.toggle("active", active);
-      button.setAttribute("aria-pressed", active ? "true" : "false");
-    });
+    if (els26.sizeModeSelect) els26.sizeModeSelect.value = isCustom ? "custom" : "preset";
     const message = isCustom ? customSizeValidationMessage() : "";
     els26.customSize?.classList.toggle("has-error", Boolean(message));
     if (els26.customSizeHint) {
@@ -39856,7 +39951,7 @@ ${galleryText}`;
         saveCurrentModelParameterDraft();
       });
     });
-    els27.sizeModeGroup?.addEventListener("click", handleSizeModeEvent);
+    els27.sizeModeSelect?.addEventListener("change", handleSizeModeChange);
     els27.swapCustomSizeButton?.addEventListener("click", swapCustomSizeDimensions);
     els27.customRatioFromImageButton?.addEventListener("click", (event) => {
       void applyFirstReferenceImageAspectRatio(event);
@@ -39864,7 +39959,7 @@ ${galleryText}`;
     if (els27.customSizeToggle) {
       els27.customSizeToggle.addEventListener("change", updateSizeFromPreset);
     }
-    els27.outputFormatGroup?.addEventListener("dblclick", handleOutputFormatDoubleClick);
+    els27.compressionTrigger?.addEventListener("click", openCompressionPopover);
   }
   function setMode4(mode) {
     saveCurrentModelParameterDraft();
@@ -39917,12 +40012,11 @@ ${galleryText}`;
       renderMainModelOptions,
       selectMainModelOption,
       handleMainModelKeydown,
-      handleSizeModeEvent,
+      handleSizeModeChange,
       handleCustomDimensionInput,
       handleCustomRatioInput,
       applyFirstReferenceImageAspectRatio,
-      swapCustomSizeDimensions,
-      handleOutputFormatDoubleClick
+      swapCustomSizeDimensions
     });
   }
 

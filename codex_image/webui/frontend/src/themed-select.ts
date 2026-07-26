@@ -295,10 +295,21 @@ export function mountThemedSelect(select: HTMLSelectElement | null): void {
   trigger.setAttribute("aria-expanded", "false");
   const value = document.createElement("span");
   value.className = "themed-select-value";
+  const balance = select.id === "generationProviderSelect"
+    ? document.createElement("span")
+    : null;
+  if (balance) {
+    balance.id = "generationProviderBalance";
+    balance.className = "generation-provider-balance";
+    balance.hidden = true;
+    balance.setAttribute("aria-live", "polite");
+    balance.setAttribute("aria-atomic", "true");
+  }
   const caret = document.createElement("span");
   caret.className = "themed-select-caret";
   caret.setAttribute("aria-hidden", "true");
-  trigger.append(value, caret);
+  if (balance) trigger.append(value, balance, caret);
+  else trigger.append(value, caret);
   const menu = document.createElement("div");
   menu.className = "themed-select-menu hidden";
   menu.setAttribute("role", "listbox");

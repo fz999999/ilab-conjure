@@ -21,6 +21,11 @@ from .provider_validation import (
 
 
 _CODEX_MODES = frozenset({"images", "responses"})
+_PROVIDER_SECRET_FIELDS = frozenset(
+    {"api_key", "balance_protocol", "balance_url", "balance_token", "balance_user_id"}
+)
+
+
 def _mask_api_key(api_key: str) -> str:
     clean = str(api_key or "").strip()
     if not clean:
@@ -81,21 +86,25 @@ def migrate_legacy_provider(raw: Mapping[str, Any]) -> dict[str, Any]:
             }
         ],
     }
+    for field in ("balance_protocol", "balance_url", "balance_token", "balance_user_id"):
+        clean = str(raw.get(field) or "").strip()
+        if clean:
+            provider[field] = clean
     icon_emoji = _normalize_provider_icon_emoji(raw.get("icon_emoji"))
     if icon_emoji:
         provider["icon_emoji"] = icon_emoji
     return provider
 
 
-def _without_api_keys(value: Any) -> Any:
+def _without_provider_secrets(value: Any) -> Any:
     if isinstance(value, dict):
         return {
-            key: _without_api_keys(nested)
+            key: _without_provider_secrets(nested)
             for key, nested in value.items()
-            if key != "api_key"
+            if key not in _PROVIDER_SECRET_FIELDS
         }
     if isinstance(value, list):
-        return [_without_api_keys(nested) for nested in value]
+        return [_without_provider_secrets(nested) for nested in value]
     return value
 
 
@@ -138,11 +147,17 @@ class ProviderSettings:
             api_key = str(provider.get("api_key") or "")
             provider["api_key_set"] = bool(api_key)
             provider["api_key_masked"] = _mask_api_key(api_key) if api_key else ""
+            balance_protocol = str(provider.get("balance_protocol") or "").strip().lower()
+            provider["balance_configured"] = (
+                bool(provider.get("base_url") and api_key)
+                if balance_protocol == "wisart"
+                else bool(provider.get("balance_url") and provider.get("balance_token"))
+            )
         active = self._active_provider(settings)
         api_key = str(active.get("api_key") or "")
         settings["api_key_set"] = bool(api_key)
         settings["api_key_masked"] = _mask_api_key(api_key) if api_key else ""
-        return _without_api_keys(settings)
+        return _without_provider_secrets(settings)
 
     def read_connections(self) -> list[ProviderConnection]:
         settings = self.read()
@@ -447,14 +462,24 @@ class ProviderSettings:
     ) -> list[Any]:
         prepared = deepcopy(providers)
         for provider in prepared:
-            if not isinstance(provider, dict) or "api_key" in provider:
+            if not isinstance(provider, dict):
                 continue
             provider_id = _normalize_slug(provider.get("id"), fallback="default")
             source_id = _normalize_slug(
                 provider.pop("api_key_source_provider_id", None), fallback=""
             )
             source = current_by_id.get(source_id) or current_by_id.get(provider_id)
-            provider["api_key"] = str((source or {}).get("api_key") or "")
+            if "api_key" not in provider:
+                provider["api_key"] = str((source or {}).get("api_key") or "")
+            current_provider = current_by_id.get(provider_id) or {}
+            for field in (
+                "balance_protocol",
+                "balance_url",
+                "balance_token",
+                "balance_user_id",
+            ):
+                if field not in provider and field in current_provider:
+                    provider[field] = str(current_provider[field])
         return prepared
 
     @classmethod
