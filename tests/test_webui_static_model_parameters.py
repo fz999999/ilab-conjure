@@ -112,3 +112,11 @@ class ModelParameterFrontendContractTests(WebUIStaticTestCase):
         self.assertIn('form.append("parameters_json"', source)
         self.assertIn("Object.keys", source)
         self.assertIn(".sort()", source)
+
+    def test_legacy_gpt_fields_do_not_depend_on_quantity_quality_wrapper(self) -> None:
+        source = Path("codex_image/webui/frontend/src/model-parameters.ts").read_text(encoding="utf-8")
+        self.assertIn('els.quality?.closest(".quality-field")', source)
+        self.assertIn('els.nInput?.closest(".quantity-field")', source)
+        self.assertNotIn('els.quality?.closest(".quantity-quality-row")', source)
+        self.assertIn('classList.toggle("auto-size-mode", visibility.autoSize)', source)
+        self.assertIn('classList.toggle("custom-size-mode", visibility.customSize)', source)
