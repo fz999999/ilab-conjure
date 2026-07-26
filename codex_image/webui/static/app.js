@@ -31615,7 +31615,7 @@ ${hint}` : hint;
     element2.classList.add("hidden");
   }
   function applyModeSettingsVisibility(visibility) {
-    const showModeSettings = visibility.showMainModel || visibility.showApiDirectNotice || visibility.showPromptFidelity;
+    const showModeSettings = visibility.showMainModel;
     setModeSpecificElementVisibility(els8.modeSettingsSlot, showModeSettings);
     setModeSpecificElementVisibility(els8.modeSpecificSettings, showModeSettings);
     setModeSpecificElementVisibility(els8.mainModelField, visibility.showMainModel);
