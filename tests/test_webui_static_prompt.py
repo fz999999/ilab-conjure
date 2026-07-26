@@ -1410,14 +1410,3 @@ console.log(cases.map((color) => readableTextColor(color)).join("\\n"));
         self.assertNotIn('form.append("input_fidelity"', script)
         self.assertIn('els.size.value = "auto"', script)
 
-    def test_prompt_fidelity_moves_outside_mode_slot_but_keeps_own_visibility(self) -> None:
-        html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
-        script = Path("codex_image/webui/frontend/src/api-mode-settings.ts").read_text(encoding="utf-8")
-        mode_slot = re.search(r'<div id="modeSettingsSlot"[\s\S]*?</div>\n\s*</div>', html)
-        self.assertIsNotNone(mode_slot)
-        self.assertNotIn('id="promptFidelityField"', mode_slot.group(0))
-        self.assertIn(
-            "setModeSpecificElementVisibility(els.promptFidelityField, visibility.showPromptFidelity);",
-            script,
-        )
-

@@ -2457,7 +2457,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
 
         self.assertRegex(
             html,
-            r'<div class="field ratio-field compact-output-field compact-output-field--ratio">[\s\S]*<select id="ratio" class="control compact-output-select">',
+            r'<div class="field full-width ratio-field">[\s\S]*<select id="ratio" class="control compact-output-select">',
         )
         self.assertNotIn('id="ratioGroup"', html)
         self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*min-height:\s*36px")
@@ -2468,14 +2468,16 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
 
         self.assertRegex(
             html,
-            r'<div class="field orientation-field compact-output-field compact-output-field--orientation">[\s\S]*id="orientation"[\s\S]*</div>\s*'
-            r'<div class="field resolution-field compact-output-field compact-output-field--resolution">[\s\S]*id="resolution"[\s\S]*</div>\s*'
-            r'<div class="field ratio-field compact-output-field compact-output-field--ratio">[\s\S]*id="ratio"',
+            r'<div class="field orientation-field">[\s\S]*id="orientation"[\s\S]*</div>\s*'
+            r'<div class="field resolution-field">[\s\S]*id="resolution"[\s\S]*</div>\s*'
+            r'<div id="customSize" class="custom-size hidden"[\s\S]*id="customWidth"[\s\S]*id="customHeight"[\s\S]*</div>\s*'
+            r'<div class="field full-width ratio-field">[\s\S]*id="ratio"',
         )
         self.assertRegex(
             html,
-            r'<div class="field quality-field compact-output-field compact-output-field--quality">[\s\S]*id="quality"[\s\S]*</div>\s*'
-            r'<div class="field quantity-field compact-output-field compact-output-field--quantity">[\s\S]*id="nInput"',
+            r'<div class="field-pair full-width quantity-quality-row">[\s\S]*'
+            r'<div class="field quality-field">[\s\S]*id="quality"[\s\S]*</div>\s*'
+            r'<div class="field quantity-field">[\s\S]*id="nInput"',
         )
 
     def test_button_radio_groups_are_not_wrapped_by_labels(self) -> None:
@@ -2508,7 +2510,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertIn('DEFAULT_ORIENTATION = "square"', script)
         self.assertIn("syncRatioAndOrientation", script)
 
-    def test_background_control_is_removed_and_quantity_follows_quality(self) -> None:
+    def test_background_control_is_removed_and_quantity_sits_with_quality(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
@@ -2517,8 +2519,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertNotIn("<span>背景</span>", html)
         self.assertNotIn("els.background", script)
         self.assertNotIn('form.append("background"', script)
-        self.assertNotIn("quantity-quality-row", html)
-        self.assertLess(html.index('id="quality"'), html.index('id="nInput"'))
+        self.assertRegex(html, r'class="field-pair full-width quantity-quality-row"[\s\S]*id="quality"[\s\S]*id="nInput"')
+        self.assertRegex(styles, r"\.field-pair\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\) minmax\(0,\s*1fr\)")
 
     def test_custom_size_panel_is_inline_mode_with_validation(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
@@ -2526,13 +2528,13 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
         self.assertIn('id="settingsGrid"', html)
-        self.assertRegex(html, r'class="field-group custom-size-control compact-output-field compact-output-field--size-mode"[\s\S]*id="sizeModeSelect"[\s\S]*value="auto" selected[\s\S]*value="preset"[\s\S]*value="custom"')
+        self.assertRegex(html, r'class="field-group full-width custom-size-control"[\s\S]*id="sizeModeSelect"[\s\S]*value="auto" selected[\s\S]*value="preset"[\s\S]*value="custom"')
         self.assertRegex(
             html,
-            r'class="field-group custom-size-control compact-output-field compact-output-field--size-mode"[\s\S]*id="customSizeToggle"[\s\S]*</div>\s*'
-            r'<div class="field orientation-field compact-output-field compact-output-field--orientation">[\s\S]*id="orientation"[\s\S]*</div>\s*'
-            r'<div class="field resolution-field compact-output-field compact-output-field--resolution">[\s\S]*id="resolution"[\s\S]*</div>[\s\S]*'
-            r'<div id="customSize" class="custom-size hidden compact-output-field compact-output-field--custom-size"[\s\S]*class="custom-size-main"[\s\S]*class="field custom-ratio-field"',
+            r'class="field-group full-width custom-size-control"[\s\S]*id="customSizeToggle"[\s\S]*</div>\s*'
+            r'<div class="field orientation-field">[\s\S]*id="orientation"[\s\S]*</div>\s*'
+            r'<div class="field resolution-field">[\s\S]*id="resolution"[\s\S]*</div>\s*'
+            r'<div id="customSize" class="custom-size hidden"[\s\S]*class="custom-size-main"[\s\S]*class="field custom-ratio-field"',
         )
         self.assertRegex(html, r'id="customSizeToggle" class="hidden"')
         custom_ratio_markup = re.search(r'<div class="field custom-ratio-field">[\s\S]*?<p id="customRatioHint"[^>]*>[^<]*</p>\s*</div>', html)
@@ -2550,7 +2552,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertNotIn('placeholder="宽"', custom_ratio_markup.group(0))
         self.assertNotIn('placeholder="高"', custom_ratio_markup.group(0))
         self.assertRegex(custom_ratio_markup.group(0), r'id="customRatioHint" class="custom-ratio-hint"[\s\S]*留空则自由宽高 · 填满后同步')
-        custom_size_markup = re.search(r'<div id="customSize" class="custom-size hidden compact-output-field compact-output-field--custom-size"[\s\S]*?</div>\s*<div id="outputFormatField"', html)
+        custom_size_markup = re.search(r'<div id="customSize" class="custom-size hidden"[\s\S]*?</div>\s*<div class="field full-width ratio-field">', html)
         self.assertIsNotNone(custom_size_markup)
         self.assertRegex(custom_size_markup.group(0), r'class="custom-size-main"[\s\S]*class="custom-size-header"[\s\S]*<span[^>]*>像素尺寸</span>')
         self.assertRegex(custom_size_markup.group(0), r'class="custom-measure-row custom-size-row"')
@@ -3863,31 +3865,3 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertNotIn("rgba(226, 232, 229", panel_block)
         self.assertNotRegex(styles, r"\.modal-panel\s*\{[^}]*width:\s*min\(920px,\s*94vw\)[^}]*rgba\(226, 232, 229")
         self.assertNotIn("rgba(226, 232, 229", styles)
-
-    def test_gpt_output_settings_use_three_state_compact_matrix(self) -> None:
-        html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
-        matrix = re.search(
-            r'<div id="compactOutputSettings" class="compact-output-settings full-width">([\s\S]*?)\n\s*</div>\n\s*</div>\n\s*</section>',
-            html,
-        )
-        self.assertIsNotNone(matrix)
-        markup = matrix.group(1)
-        expected_ids = (
-            "promptFidelityField",
-            "sizeModeSelect",
-            "orientation",
-            "resolution",
-            "ratio",
-            "quality",
-            "nInput",
-            "moderation",
-            "customSize",
-            "outputFormatField",
-            "pixelPreview",
-        )
-        positions = [markup.index(f'id="{element_id}"') for element_id in expected_ids]
-        self.assertEqual(positions, sorted(positions))
-        self.assertNotIn("quantity-quality-row", markup)
-        self.assertNotRegex(markup, r'id="pixelPreview"[^>]*style=')
-        self.assertRegex(markup, r'id="sizeModeSelect"[\s\S]*value="auto" selected')
-        self.assertRegex(markup, r'id="size"[^>]*value="auto"')

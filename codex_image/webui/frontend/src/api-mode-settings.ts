@@ -30,7 +30,9 @@ export function setModeSpecificElementVisibility(element: any, visible: any): vo
 }
 
 function applyModeSettingsVisibility(visibility: ModeSettingsVisibility): void {
-  const showModeSettings = visibility.showMainModel || visibility.showApiDirectNotice;
+  const showModeSettings = visibility.showMainModel
+    || visibility.showApiDirectNotice
+    || visibility.showPromptFidelity;
   setModeSpecificElementVisibility(els.modeSettingsSlot, showModeSettings);
   setModeSpecificElementVisibility(els.modeSpecificSettings, showModeSettings);
   setModeSpecificElementVisibility(els.mainModelField, visibility.showMainModel);
