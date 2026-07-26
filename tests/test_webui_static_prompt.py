@@ -1408,4 +1408,5 @@ console.log(cases.map((color) => readableTextColor(color)).join("\\n"));
         self.assertNotIn("input_fidelity: state.mode", script)
         self.assertNotIn('payload.input_fidelity', script)
         self.assertNotIn('form.append("input_fidelity"', script)
-        self.assertIn('els.size.value = "1024x1024"', script)
+        self.assertIn('els.size.value = "auto"', script)
+
