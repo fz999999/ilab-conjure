@@ -82,6 +82,94 @@ class WebUIGenerationTests(unittest.TestCase):
             with self.subTest(locale=locale):
                 self.assertEqual(ratio_prompt_instruction("9:16", locale=locale), instruction)
 
+    def test_generate_and_edit_routes_use_hidden_control_defaults(self) -> None:
+        from codex_image.webui.app import create_app
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            app = create_app(
+                output_root=root,
+                client_factory=lambda: FakeImageClient(),
+                auth_checker=lambda: True,
+                auto_start_queue=False,
+            )
+            client = TestClient(app)
+            generate_response = client.post(
+                "/api/generate",
+                data={"prompt": "default generate", "model": "gpt-image-2"},
+            )
+            edit_response = client.post(
+                "/api/edit",
+                data={"prompt": "default edit", "model": "gpt-image-2"},
+                files={"images": ("input.png", self._png_bytes(), "image/png")},
+            )
+
+            responses = (generate_response, edit_response)
+            params_by_operation = []
+            for response in responses:
+                task_id = response.json()["task"]["task_id"]
+                metadata = json.loads(metadata_path(root, task_id).read_text(encoding="utf-8"))
+                params_by_operation.append(metadata["params"])
+
+        for response in responses:
+            self.assertEqual(response.status_code, 200)
+        for params in params_by_operation:
+            self.assertEqual(params["size"], "auto")
+            self.assertEqual(params["quality"], "auto")
+            self.assertEqual(params["output_format"], "png")
+            self.assertEqual(params["moderation"], "auto")
+            self.assertEqual(params["prompt_fidelity"], "strict")
+            self.assertFalse(params.get("web_search", False))
+
+    def test_generate_and_edit_routes_preserve_explicit_hidden_parameters(self) -> None:
+        from codex_image.webui.app import create_app
+
+        explicit = {
+            "model": "gpt-image-2",
+            "size": "1536x1024",
+            "quality": "high",
+            "output_format": "webp",
+            "moderation": "low",
+            "prompt_fidelity": "original",
+            "web_search": "true",
+            "codex_mode": "responses",
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            app = create_app(
+                output_root=root,
+                client_factory=lambda: FakeImageClient(),
+                auth_checker=lambda: True,
+                auto_start_queue=False,
+            )
+            client = TestClient(app)
+            generate_response = client.post(
+                "/api/generate",
+                data={"prompt": "explicit generate", **explicit},
+            )
+            edit_response = client.post(
+                "/api/edit",
+                data={"prompt": "explicit edit", **explicit},
+                files={"images": ("input.png", self._png_bytes(), "image/png")},
+            )
+
+            responses = (generate_response, edit_response)
+            params_by_operation = []
+            for response in responses:
+                task_id = response.json()["task"]["task_id"]
+                metadata = json.loads(metadata_path(root, task_id).read_text(encoding="utf-8"))
+                params_by_operation.append(metadata["params"])
+
+        for response in responses:
+            self.assertEqual(response.status_code, 200)
+        for params in params_by_operation:
+            self.assertEqual(params["size"], "1536x1024")
+            self.assertEqual(params["quality"], "high")
+            self.assertEqual(params["output_format"], "webp")
+            self.assertEqual(params["moderation"], "low")
+            self.assertEqual(params["prompt_fidelity"], "original")
+            self.assertTrue(params["web_search"])
+
     def test_generate_route_persists_task_and_passes_parameters(self) -> None:
         from codex_image.webui.app import create_app
 
