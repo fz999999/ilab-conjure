@@ -796,4 +796,3 @@ def register_generation_routes(app: FastAPI, ctx: WebUIContext) -> None:
             reference_assets=reference_assets,
             file_references=file_references,
         )
-
