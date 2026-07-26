@@ -182,7 +182,7 @@ class GenerationCatalogTests(unittest.TestCase):
         gpt = get_model_manifest("gpt-image-2")
         size = gpt.parameter("canvas.size")
         self.assertEqual(size.value_type, "string")
-        self.assertEqual(size.default, "1024x1024")
+        self.assertEqual(size.default, "auto")
         self.assertEqual(size.allowed_values, ())
         self.assertEqual(gpt.parameter("gpt.quality").allowed_values, ("auto", "low", "medium", "high"))
         self.assertEqual(gpt.parameter("gpt.background").allowed_values, ("auto", "transparent", "opaque"))

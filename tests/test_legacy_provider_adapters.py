@@ -154,6 +154,40 @@ class LegacyProviderAdapterTests(unittest.TestCase):
         self.assertEqual(encoded.path, "/images/generations")
         self.assertEqual(encoded.repeat_count, 1)
 
+    def test_gpt_codecs_preserve_auto_size_in_provider_payloads(self) -> None:
+        base_command = _command()
+        command = replace(
+            base_command,
+            parameters={**base_command.parameters, "canvas.size": "auto"},
+        )
+        cases = (
+            ("relay", "openai_images", "gpt_openai_images", GptOpenAIImagesCodec()),
+            ("relay", "openai_responses", "gpt_openai_responses", GptOpenAIResponsesCodec()),
+            ("codex", "codex_images", "gpt_codex_images", GptCodexImagesCodec()),
+            ("codex", "codex_responses", "gpt_codex_responses", GptCodexResponsesCodec()),
+        )
+
+        for provider_id, profile, codec_id, codec in cases:
+            with self.subTest(profile=profile):
+                binding = _binding(
+                    provider_id=provider_id,
+                    profile=profile,
+                    codec=codec_id,
+                    remote_model_id="gpt-image-2",
+                )
+                encoded = codec.encode(
+                    replace(command, provider_id=provider_id),
+                    get_model_manifest("gpt-image-2"),
+                    binding,
+                )
+                body = dict(encoded.json_body or {})
+                submitted_size = (
+                    body["tools"][0]["size"]
+                    if profile.endswith("responses")
+                    else body["size"]
+                )
+                self.assertEqual(submitted_size, "auto")
+
     def test_codex_responses_codec_matches_existing_payload(self) -> None:
         from codex_image.codex_responses_client import CodexImageClient
 

@@ -1569,7 +1569,10 @@ input:checked + .slider.round:before {
 
 .settings-grid.custom-size-mode .resolution-field,
 .settings-grid.custom-size-mode .ratio-field,
-.settings-grid.custom-size-mode .orientation-field {
+.settings-grid.custom-size-mode .orientation-field,
+.settings-grid.auto-size-mode .resolution-field,
+.settings-grid.auto-size-mode .ratio-field,
+.settings-grid.auto-size-mode .orientation-field {
   display: none;
 }
 

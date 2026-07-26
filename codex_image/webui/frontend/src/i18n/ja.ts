@@ -484,6 +484,7 @@ export const JA_DICTIONARY: TranslationDictionary = {
     "output.promptHelp.images.automatic": "画像 API の既定処理で送信し、ギャラリー参照など必要な説明は含めます。",
     "output.size": "出力サイズ",
     "output.sizeMode": "サイズモード",
+    "output.sizeAuto": "自動",
     "output.sizePreset": "プリセット",
     "output.sizeCustom": "カスタム",
     "output.orientation": "方向",

@@ -36,18 +36,29 @@ function measuredElementHeight(element: any): number {
   return Math.ceil(element.getBoundingClientRect().height);
 }
 
+type SizeMode = "auto" | "preset" | "custom";
+
+function normalizedSizeMode(value: unknown): SizeMode {
+  if (value === "auto" || value === "custom") return value;
+  return "preset";
+}
+
 export function handleSizeModeChange(event: any): void {
   const select = event?.currentTarget || event?.target;
   if (!select || select !== els.sizeModeSelect) return;
-  setCustomSizeMode(select.value === "custom");
+  setSizeMode(select.value);
+}
+
+export function setSizeMode(mode: unknown): void {
+  const sizeMode = normalizedSizeMode(mode);
+  if (els.customSizeToggle) els.customSizeToggle.checked = sizeMode === "custom";
+  if (els.sizeModeSelect) els.sizeModeSelect.value = sizeMode;
+  updateSizeFromPreset();
+  saveCurrentModelParameterDraft();
 }
 
 export function setCustomSizeMode(isCustom: any): void {
-  const custom = Boolean(isCustom);
-  if (els.customSizeToggle) els.customSizeToggle.checked = custom;
-  if (els.sizeModeSelect) els.sizeModeSelect.value = custom ? "custom" : "preset";
-  updateSizeFromPreset();
-  saveCurrentModelParameterDraft();
+  setSizeMode(Boolean(isCustom) ? "custom" : "preset");
 }
 
 export function swapCustomSizeDimensions(event?: any): void {
@@ -264,10 +275,20 @@ function swapCustomRatioDigits(): void {
 }
 
 export function updateSizeFromPreset(event: any = null): void {
+  const sizeMode = normalizedSizeMode(els.sizeModeSelect?.value);
+  if (sizeMode === "auto") {
+    if (els.customSizeToggle) els.customSizeToggle.checked = false;
+    els.size.value = "auto";
+    updatePixelPreview("auto");
+    updateCustomSize();
+    updateRequestPreview();
+    return;
+  }
+
   const changedControl = sizeControlName(event?.target);
   syncRatioAndOrientation(changedControl);
 
-  if (els.customSizeToggle?.checked) {
+  if (sizeMode === "custom" || els.customSizeToggle?.checked) {
     if (els.size?.value !== "custom") {
       populateCustomSizeFromCurrentPreset();
     }
@@ -376,6 +397,7 @@ document.addEventListener(LOCALE_CHANGE_EVENT, () => updatePixelPreview(els.size
 export function syncSizeControlsFromSize(size: any): void {
   if (!size || size === "auto") {
     if (els.customSizeToggle) els.customSizeToggle.checked = false;
+    if (els.sizeModeSelect) els.sizeModeSelect.value = "auto";
     if (els.resolution) els.resolution.value = DEFAULT_RESOLUTION;
     if (els.ratio) els.ratio.value = DEFAULT_RATIO;
     if (els.orientation) els.orientation.value = DEFAULT_ORIENTATION;
@@ -387,6 +409,7 @@ export function syncSizeControlsFromSize(size: any): void {
   const presetMatch = findPresetForSize(size);
   if (presetMatch) {
     if (els.customSizeToggle) els.customSizeToggle.checked = false;
+    if (els.sizeModeSelect) els.sizeModeSelect.value = "preset";
     els.resolution.value = presetMatch.resolution;
     els.ratio.value = presetMatch.ratio;
     els.orientation.value = presetMatch.orientation;
@@ -398,6 +421,7 @@ export function syncSizeControlsFromSize(size: any): void {
   const [width, height] = String(size).split("x");
   if (width && height) {
     if (els.customSizeToggle) els.customSizeToggle.checked = true;
+    if (els.sizeModeSelect) els.sizeModeSelect.value = "custom";
     els.size.value = "custom";
     els.customWidth.value = width;
     els.customHeight.value = height;
@@ -541,10 +565,12 @@ function transitionCustomSizeMode(isCustom: any): void {
 }
 
 export function updateCustomSize(): void {
-  const isCustom = els.size?.value === "custom";
+  const sizeMode = normalizedSizeMode(els.size?.value);
+  const isCustom = sizeMode === "custom";
   transitionCustomSizeMode(isCustom);
   if (els.customSizeToggle) els.customSizeToggle.checked = isCustom;
-  if (els.sizeModeSelect) els.sizeModeSelect.value = isCustom ? "custom" : "preset";
+  if (els.sizeModeSelect) els.sizeModeSelect.value = sizeMode;
+  els.settingsGrid?.classList.toggle("auto-size-mode", sizeMode === "auto");
   const message = isCustom ? customSizeValidationMessage() : "";
   els.customSize?.classList.toggle("has-error", Boolean(message));
   if (els.customSizeHint) {

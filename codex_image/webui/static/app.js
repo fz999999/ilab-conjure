@@ -976,6 +976,7 @@
     "output.promptHelp.images.automatic": "Uses the image endpoint's default handling; required gallery-reference notes are still included.",
     "output.size": "Output size",
     "output.sizeMode": "Size mode",
+    "output.sizeAuto": "Auto",
     "output.sizePreset": "Preset",
     "output.sizeCustom": "Custom",
     "output.orientation": "Orientation",
@@ -1997,6 +1998,7 @@
     "output.promptHelp.images.automatic": "Verwendet die Standardverarbeitung der Bild-API; notwendige Galeriehinweise werden weiterhin mitgesendet.",
     "output.size": "Ausgabegr\xF6\xDFe",
     "output.sizeMode": "Gr\xF6\xDFenmodus",
+    "output.sizeAuto": "Automatisch",
     "output.sizePreset": "Voreingestellt",
     "output.sizeCustom": "Benutzerdefiniert",
     "output.orientation": "Orientierung",
@@ -3018,6 +3020,7 @@
     "output.promptHelp.images.automatic": "Usa el tratamiento predeterminado de la API de im\xE1genes e incluye las notas necesarias de referencias de la galer\xEDa.",
     "output.size": "Tama\xF1o de salida",
     "output.sizeMode": "Modo de tama\xF1o",
+    "output.sizeAuto": "Autom\xE1tico",
     "output.sizePreset": "Preestablecido",
     "output.sizeCustom": "personalizado",
     "output.orientation": "Orientaci\xF3n",
@@ -4039,6 +4042,7 @@
     "output.promptHelp.images.automatic": "Utilise le traitement par d\xE9faut de l\u2019API d\u2019images et conserve les notes n\xE9cessaires pour les r\xE9f\xE9rences de galerie.",
     "output.size": "Taille de sortie",
     "output.sizeMode": "Mode taille",
+    "output.sizeAuto": "Automatique",
     "output.sizePreset": "Pr\xE9r\xE9glage",
     "output.sizeCustom": "Personnalis\xE9",
     "output.orientation": "Orientation",
@@ -5060,6 +5064,7 @@
     "output.promptHelp.images.automatic": "\u753B\u50CF API \u306E\u65E2\u5B9A\u51E6\u7406\u3067\u9001\u4FE1\u3057\u3001\u30AE\u30E3\u30E9\u30EA\u30FC\u53C2\u7167\u306A\u3069\u5FC5\u8981\u306A\u8AAC\u660E\u306F\u542B\u3081\u307E\u3059\u3002",
     "output.size": "\u51FA\u529B\u30B5\u30A4\u30BA",
     "output.sizeMode": "\u30B5\u30A4\u30BA\u30E2\u30FC\u30C9",
+    "output.sizeAuto": "\u81EA\u52D5",
     "output.sizePreset": "\u30D7\u30EA\u30BB\u30C3\u30C8",
     "output.sizeCustom": "\u30AB\u30B9\u30BF\u30E0",
     "output.orientation": "\u65B9\u5411",
@@ -6081,6 +6086,7 @@
     "output.promptHelp.images.automatic": "\uC774\uBBF8\uC9C0 API\uC758 \uAE30\uBCF8 \uBC29\uC2DD\uC73C\uB85C \uC81C\uCD9C\uD558\uBA70 \uAC24\uB7EC\uB9AC \uCC38\uC870 \uAC19\uC740 \uD544\uC218 \uC124\uBA85\uC740 \uD3EC\uD568\uD569\uB2C8\uB2E4.",
     "output.size": "\uCD9C\uB825 \uD06C\uAE30",
     "output.sizeMode": "\uD06C\uAE30 \uBAA8\uB4DC",
+    "output.sizeAuto": "\uC790\uB3D9",
     "output.sizePreset": "\uC0AC\uC804 \uC124\uC815",
     "output.sizeCustom": "\uC0AC\uC6A9\uC790 \uC815\uC758",
     "output.orientation": "\uBC29\uD5A5",
@@ -7102,6 +7108,7 @@
     "output.promptHelp.images.automatic": "Usa o tratamento padr\xE3o da API de imagens e inclui as notas necess\xE1rias de refer\xEAncias da galeria.",
     "output.size": "Tamanho da sa\xEDda",
     "output.sizeMode": "Modo de tamanho",
+    "output.sizeAuto": "Autom\xE1tico",
     "output.sizePreset": "Predefinido",
     "output.sizeCustom": "Personalizado",
     "output.orientation": "Orienta\xE7\xE3o",
@@ -8123,6 +8130,7 @@
     "output.promptHelp.images.automatic": "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u0442 \u0441\u0442\u0430\u043D\u0434\u0430\u0440\u0442\u043D\u0443\u044E \u043E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0443 API \u0438\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0439 \u0438 \u0432\u043A\u043B\u044E\u0447\u0430\u0435\u0442 \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u044B\u0435 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u044F \u043A \u0441\u0441\u044B\u043B\u043A\u0430\u043C \u0438\u0437 \u0433\u0430\u043B\u0435\u0440\u0435\u0438.",
     "output.size": "\u0420\u0430\u0437\u043C\u0435\u0440 \u0432\u044B\u0432\u043E\u0434\u0430",
     "output.sizeMode": "\u0420\u0435\u0436\u0438\u043C \u0440\u0430\u0437\u043C\u0435\u0440\u0430",
+    "output.sizeAuto": "\u0410\u0432\u0442\u043E",
     "output.sizePreset": "\u041F\u0440\u0435\u0434\u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0430",
     "output.sizeCustom": "\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u0441\u043A\u0438\u0439",
     "output.orientation": "\u041E\u0440\u0438\u0435\u043D\u0442\u0430\u0446\u0438\u044F",
@@ -9144,6 +9152,7 @@
     "output.promptHelp.images.automatic": "Usa la gestione predefinita dell\u2019API immagini e include le note necessarie per i riferimenti della galleria.",
     "output.size": "Dimensioni di output",
     "output.sizeMode": "Modalit\xE0 dimensione",
+    "output.sizeAuto": "Automatico",
     "output.sizePreset": "Preimpostato",
     "output.sizeCustom": "Personalizzato",
     "output.orientation": "Orientamento",
@@ -10165,6 +10174,7 @@
     "output.promptHelp.images.automatic": "\u0907\u092E\u0947\u091C API \u0915\u0940 \u0921\u093F\u092B\u093C\u0949\u0932\u094D\u091F \u092A\u094D\u0930\u094B\u0938\u0947\u0938\u093F\u0902\u0917 \u0915\u093E \u0909\u092A\u092F\u094B\u0917 \u0915\u0930\u0924\u093E \u0939\u0948 \u0914\u0930 \u0917\u0948\u0932\u0930\u0940 \u0938\u0902\u0926\u0930\u094D\u092D \u0915\u0940 \u0906\u0935\u0936\u094D\u092F\u0915 \u091F\u093F\u092A\u094D\u092A\u0923\u093F\u092F\u093E\u0901 \u0936\u093E\u092E\u093F\u0932 \u0930\u0916\u0924\u093E \u0939\u0948\u0964",
     "output.size": "\u0906\u0909\u091F\u092A\u0941\u091F \u0906\u0915\u093E\u0930",
     "output.sizeMode": "\u0906\u0915\u093E\u0930 \u092E\u094B\u0921",
+    "output.sizeAuto": "\u0911\u091F\u094B",
     "output.sizePreset": "\u092A\u094D\u0930\u0940\u0938\u0947\u091F",
     "output.sizeCustom": "\u0915\u0938\u094D\u091F\u092E",
     "output.orientation": "\u0905\u092D\u093F\u092E\u0941\u0916\u0940\u0915\u0930\u0923",
@@ -11196,6 +11206,7 @@
     "output.promptHelp.images.automatic": "\u6309\u56FE\u50CF\u63A5\u53E3\u9ED8\u8BA4\u65B9\u5F0F\u63D0\u4EA4\uFF1B\u56FE\u5E93\u5F15\u7528\u7B49\u5FC5\u8981\u8BF4\u660E\u4ECD\u4F1A\u968F\u63D0\u793A\u8BCD\u53D1\u9001\u3002",
     "output.size": "\u8F93\u51FA\u5C3A\u5BF8",
     "output.sizeMode": "\u5C3A\u5BF8\u6A21\u5F0F",
+    "output.sizeAuto": "\u81EA\u52A8",
     "output.sizePreset": "\u9884\u8BBE\u5C3A\u5BF8",
     "output.sizeCustom": "\u81EA\u5B9A\u4E49\u5C3A\u5BF8",
     "output.orientation": "\u65B9\u5411",
@@ -12227,6 +12238,7 @@
     "output.promptHelp.images.automatic": "\u6309\u5716\u50CF\u4ECB\u9762\u7684\u9810\u8A2D\u65B9\u5F0F\u63D0\u4EA4\uFF1B\u5716\u5EAB\u5F15\u7528\u7B49\u5FC5\u8981\u8AAA\u660E\u4ECD\u6703\u96A8\u63D0\u793A\u8A5E\u50B3\u9001\u3002",
     "output.size": "\u8F38\u51FA\u5C3A\u5BF8",
     "output.sizeMode": "\u5C3A\u5BF8\u6A21\u5F0F",
+    "output.sizeAuto": "\u81EA\u52D5",
     "output.sizePreset": "\u9810\u8A2D\u5C3A\u5BF8",
     "output.sizeCustom": "\u81EA\u8A02\u5C3A\u5BF8",
     "output.orientation": "\u65B9\u5411",
@@ -13258,6 +13270,7 @@
     "output.promptHelp.images.automatic": "\u6309\u5716\u50CF\u4ECB\u9762\u7684\u9810\u8A2D\u65B9\u5F0F\u63D0\u4EA4\uFF1B\u5716\u5EAB\u5F15\u7528\u7B49\u5FC5\u8981\u8AAA\u660E\u4ECD\u6703\u96A8\u63D0\u793A\u8A5E\u50B3\u9001\u3002",
     "output.size": "\u8F38\u51FA\u5C3A\u5BF8",
     "output.sizeMode": "\u5C3A\u5BF8\u6A21\u5F0F",
+    "output.sizeAuto": "\u81EA\u52D5",
     "output.sizePreset": "\u9810\u8A2D\u5C3A\u5BF8",
     "output.sizeCustom": "\u81EA\u8A02\u5C3A\u5BF8",
     "output.orientation": "\u65B9\u5411",
@@ -32527,6 +32540,7 @@ ${hint}` : hint;
     const legacyGpt = modelId === "gpt-image-2";
     return {
       legacyGpt,
+      autoSize: legacyGpt && sizeMode === "auto",
       customSize: legacyGpt && sizeMode === "custom"
     };
   }
@@ -32643,6 +32657,7 @@ ${hint}` : hint;
       els43.customSize.setAttribute("aria-hidden", visibility.customSize ? "false" : "true");
     }
     els43.settingsGrid?.classList.toggle("custom-size-mode", visibility.customSize);
+    els43.settingsGrid?.classList.toggle("auto-size-mode", visibility.autoSize);
     els43.webSearchField?.classList.toggle("hidden", !legacyGpt);
     root.classList.toggle("hidden", legacyGpt);
     if (legacyGpt) root.replaceChildren();
@@ -39414,15 +39429,19 @@ ${galleryText}`;
     if (!element2) return 0;
     return Math.ceil(element2.getBoundingClientRect().height);
   }
+  function normalizedSizeMode(value) {
+    if (value === "auto" || value === "custom") return value;
+    return "preset";
+  }
   function handleSizeModeChange(event) {
     const select = event?.currentTarget || event?.target;
     if (!select || select !== els26.sizeModeSelect) return;
-    setCustomSizeMode(select.value === "custom");
+    setSizeMode(select.value);
   }
-  function setCustomSizeMode(isCustom) {
-    const custom = Boolean(isCustom);
-    if (els26.customSizeToggle) els26.customSizeToggle.checked = custom;
-    if (els26.sizeModeSelect) els26.sizeModeSelect.value = custom ? "custom" : "preset";
+  function setSizeMode(mode) {
+    const sizeMode = normalizedSizeMode(mode);
+    if (els26.customSizeToggle) els26.customSizeToggle.checked = sizeMode === "custom";
+    if (els26.sizeModeSelect) els26.sizeModeSelect.value = sizeMode;
     updateSizeFromPreset();
     saveCurrentModelParameterDraft2();
   }
@@ -39609,9 +39628,18 @@ ${galleryText}`;
     setCustomAspectRatioFromManualInputs();
   }
   function updateSizeFromPreset(event = null) {
+    const sizeMode = normalizedSizeMode(els26.sizeModeSelect?.value);
+    if (sizeMode === "auto") {
+      if (els26.customSizeToggle) els26.customSizeToggle.checked = false;
+      els26.size.value = "auto";
+      updatePixelPreview("auto");
+      updateCustomSize();
+      updateRequestPreview10();
+      return;
+    }
     const changedControl = sizeControlName(event?.target);
     syncRatioAndOrientation(changedControl);
-    if (els26.customSizeToggle?.checked) {
+    if (sizeMode === "custom" || els26.customSizeToggle?.checked) {
       if (els26.size?.value !== "custom") {
         populateCustomSizeFromCurrentPreset();
       }
@@ -39707,6 +39735,7 @@ ${galleryText}`;
   function syncSizeControlsFromSize(size) {
     if (!size || size === "auto") {
       if (els26.customSizeToggle) els26.customSizeToggle.checked = false;
+      if (els26.sizeModeSelect) els26.sizeModeSelect.value = "auto";
       if (els26.resolution) els26.resolution.value = DEFAULT_RESOLUTION;
       if (els26.ratio) els26.ratio.value = DEFAULT_RATIO;
       if (els26.orientation) els26.orientation.value = DEFAULT_ORIENTATION;
@@ -39717,6 +39746,7 @@ ${galleryText}`;
     const presetMatch = findPresetForSize(size);
     if (presetMatch) {
       if (els26.customSizeToggle) els26.customSizeToggle.checked = false;
+      if (els26.sizeModeSelect) els26.sizeModeSelect.value = "preset";
       els26.resolution.value = presetMatch.resolution;
       els26.ratio.value = presetMatch.ratio;
       els26.orientation.value = presetMatch.orientation;
@@ -39727,6 +39757,7 @@ ${galleryText}`;
     const [width, height] = String(size).split("x");
     if (width && height) {
       if (els26.customSizeToggle) els26.customSizeToggle.checked = true;
+      if (els26.sizeModeSelect) els26.sizeModeSelect.value = "custom";
       els26.size.value = "custom";
       els26.customWidth.value = width;
       els26.customHeight.value = height;
@@ -39852,10 +39883,12 @@ ${galleryText}`;
     customSizeTransitionTimers.set(grid, timerId);
   }
   function updateCustomSize() {
-    const isCustom = els26.size?.value === "custom";
+    const sizeMode = normalizedSizeMode(els26.size?.value);
+    const isCustom = sizeMode === "custom";
     transitionCustomSizeMode(isCustom);
     if (els26.customSizeToggle) els26.customSizeToggle.checked = isCustom;
-    if (els26.sizeModeSelect) els26.sizeModeSelect.value = isCustom ? "custom" : "preset";
+    if (els26.sizeModeSelect) els26.sizeModeSelect.value = sizeMode;
+    els26.settingsGrid?.classList.toggle("auto-size-mode", sizeMode === "auto");
     const message = isCustom ? customSizeValidationMessage() : "";
     els26.customSize?.classList.toggle("has-error", Boolean(message));
     if (els26.customSizeHint) {
@@ -47839,18 +47872,19 @@ ${galleryText}`;
     setPromptText3("");
     if (!outputSettingsLocked) {
       if (els41.customSizeToggle) els41.customSizeToggle.checked = false;
+      if (els41.sizeModeSelect) els41.sizeModeSelect.value = "auto";
       if (els41.nInput) els41.nInput.value = "1";
       if (els41.resolution) els41.resolution.value = "standard";
       if (els41.ratio) els41.ratio.value = "1:1";
       if (els41.orientation) els41.orientation.value = "square";
-      els41.size.value = "1024x1024";
+      els41.size.value = "auto";
       els41.quality.value = "auto";
       els41.outputFormat.value = "png";
       els41.moderation.value = "auto";
       els41.compression.value = "80";
       if (els41.promptFidelity) els41.promptFidelity.value = "strict";
       if (els41.webSearch) els41.webSearch.checked = false;
-      [els41.nInput, els41.resolution, els41.ratio, els41.orientation, els41.quality, els41.outputFormat, els41.moderation, els41.promptFidelity, els41.webSearch].forEach((sel) => {
+      [els41.sizeModeSelect, els41.nInput, els41.resolution, els41.ratio, els41.orientation, els41.quality, els41.outputFormat, els41.moderation, els41.promptFidelity, els41.webSearch].forEach((sel) => {
         if (sel) sel.dispatchEvent(new Event("change"));
       });
       updateSizeFromPreset2();

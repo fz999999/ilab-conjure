@@ -484,6 +484,7 @@ export const FR_DICTIONARY: TranslationDictionary = {
     "output.promptHelp.images.automatic": "Utilise le traitement par défaut de l’API d’images et conserve les notes nécessaires pour les références de galerie.",
     "output.size": "Taille de sortie",
     "output.sizeMode": "Mode taille",
+    "output.sizeAuto": "Automatique",
     "output.sizePreset": "Préréglage",
     "output.sizeCustom": "Personnalisé",
     "output.orientation": "Orientation",

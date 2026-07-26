@@ -337,18 +337,19 @@ function resetForm() {
   setPromptText("");
   if (!outputSettingsLocked) {
     if (els.customSizeToggle) els.customSizeToggle.checked = false;
+    if (els.sizeModeSelect) els.sizeModeSelect.value = "auto";
     if (els.nInput) els.nInput.value = "1";
     if (els.resolution) els.resolution.value = "standard";
     if (els.ratio) els.ratio.value = "1:1";
     if (els.orientation) els.orientation.value = "square";
-    els.size.value = "1024x1024";
+    els.size.value = "auto";
     els.quality.value = "auto";
     els.outputFormat.value = "png";
     els.moderation.value = "auto";
     els.compression.value = "80";
     if (els.promptFidelity) els.promptFidelity.value = "strict";
     if (els.webSearch) els.webSearch.checked = false;
-    [els.nInput, els.resolution, els.ratio, els.orientation, els.quality, els.outputFormat, els.moderation, els.promptFidelity, els.webSearch].forEach((sel) => {
+    [els.sizeModeSelect, els.nInput, els.resolution, els.ratio, els.orientation, els.quality, els.outputFormat, els.moderation, els.promptFidelity, els.webSearch].forEach((sel) => {
       if (sel) sel.dispatchEvent(new Event("change"));
     });
     updateSizeFromPreset();

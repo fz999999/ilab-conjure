@@ -265,16 +265,24 @@ test("advanced parameter expansion is manifest driven and history remains expand
 });
 
 test("legacy GPT custom size is visible only for the GPT custom mode", () => {
+  assert.deepEqual(legacyParameterVisibility("gpt-image-2", "auto"), {
+    legacyGpt: true,
+    autoSize: true,
+    customSize: false,
+  });
   assert.deepEqual(legacyParameterVisibility("gpt-image-2", "preset"), {
     legacyGpt: true,
+    autoSize: false,
     customSize: false,
   });
   assert.deepEqual(legacyParameterVisibility("gpt-image-2", "custom"), {
     legacyGpt: true,
+    autoSize: false,
     customSize: true,
   });
   assert.deepEqual(legacyParameterVisibility("nano-banana-2", "custom"), {
     legacyGpt: false,
+    autoSize: false,
     customSize: false,
   });
 });

@@ -623,7 +623,8 @@
                 <div class="field-group full-width custom-size-control">
                   <span class="field-label mb-0" data-i18n="output.sizeMode">尺寸模式</span>
                   <select id="sizeModeSelect" class="control compact-output-select" aria-label="尺寸模式" data-i18n-attr="aria-label:output.sizeMode">
-                    <option value="preset" selected data-i18n="output.sizePreset">预设尺寸</option>
+                    <option value="auto" selected data-i18n="output.sizeAuto">自动</option>
+                    <option value="preset" data-i18n="output.sizePreset">预设尺寸</option>
                     <option value="custom" data-i18n="output.sizeCustom">自定义尺寸</option>
                   </select>
                   <input type="checkbox" id="customSizeToggle" class="hidden" aria-hidden="true" />
@@ -747,10 +748,10 @@
                 </div>
 
                 <div id="pixelPreview" class="full-width" style="text-align: center; font-size: 13px; color: var(--primary); padding: 8px; background: var(--primary-light); border-radius: 6px;">
-                  <span data-i18n="output.pixelPreview">输出像素: 1024 x 1024 px</span>
+                  <span data-i18n="output.pixelPreviewAuto">输出像素: auto（OpenAI 自动选择）</span>
                 </div>
 
-                <input type="text" id="size" class="hidden" value="1024x1024" />
+                <input type="text" id="size" class="hidden" value="auto" />
 
                 <div id="outputFormatField" class="field output-format-field">
                   <span data-i18n="output.format">输出格式</span>

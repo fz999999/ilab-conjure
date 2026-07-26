@@ -653,11 +653,13 @@ export function advancedParametersAreExpanded(model: CatalogModel, readOnly: boo
 
 export function legacyParameterVisibility(modelId: string, sizeMode: unknown): {
   legacyGpt: boolean;
+  autoSize: boolean;
   customSize: boolean;
 } {
   const legacyGpt = modelId === "gpt-image-2";
   return {
     legacyGpt,
+    autoSize: legacyGpt && sizeMode === "auto",
     customSize: legacyGpt && sizeMode === "custom",
   };
 }
@@ -810,6 +812,7 @@ export function renderModelParameters(
     els.customSize.setAttribute("aria-hidden", visibility.customSize ? "false" : "true");
   }
   els.settingsGrid?.classList.toggle("custom-size-mode", visibility.customSize);
+  els.settingsGrid?.classList.toggle("auto-size-mode", visibility.autoSize);
   els.webSearchField?.classList.toggle("hidden", !legacyGpt);
   root.classList.toggle("hidden", legacyGpt);
   if (legacyGpt) root.replaceChildren();

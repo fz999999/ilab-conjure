@@ -484,6 +484,7 @@ export const HI_DICTIONARY: TranslationDictionary = {
     "output.promptHelp.images.automatic": "इमेज API की डिफ़ॉल्ट प्रोसेसिंग का उपयोग करता है और गैलरी संदर्भ की आवश्यक टिप्पणियाँ शामिल रखता है।",
     "output.size": "आउटपुट आकार",
     "output.sizeMode": "आकार मोड",
+    "output.sizeAuto": "ऑटो",
     "output.sizePreset": "प्रीसेट",
     "output.sizeCustom": "कस्टम",
     "output.orientation": "अभिमुखीकरण",

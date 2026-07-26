@@ -105,11 +105,12 @@ class WebUIStaticModelProviderTests(WebUIStaticTestCase):
     def test_programmatic_size_actions_persist_the_active_model_draft(self) -> None:
         source = Path("codex_image/webui/frontend/src/custom-size-controls.ts").read_text(encoding="utf-8")
         main = Path("codex_image/webui/frontend/src/main.ts").read_text(encoding="utf-8")
-        size_mode = source[source.index("export function setCustomSizeMode"):source.index("export function swapCustomSizeDimensions")]
+        size_mode = source[source.index("export function setSizeMode"):source.index("export function swapCustomSizeDimensions")]
         swap = source[source.index("export function swapCustomSizeDimensions"):source.index("export function sanitizeCustomRatioInput")]
         first_image = source[source.index("export async function applyFirstReferenceImageAspectRatio"):source.index("export function handleCustomDimensionInput")]
         for block in (size_mode, swap, first_image):
             self.assertIn("saveCurrentModelParameterDraft", block)
+        self.assertIn('setSizeMode(Boolean(isCustom) ? "custom" : "preset")', size_mode)
         self.assertIn('import { initModelParameterDraftFeature } from "./model-parameter-drafts";', main)
         self.assertIn("initModelParameterDraftFeature();", main)
 

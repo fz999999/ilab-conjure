@@ -2301,7 +2301,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
 
         expected_options = {
             "promptFidelity": [("original", "原文"), ("strict", "保真"), ("off", "自动")],
-            "sizeModeSelect": [("preset", "预设尺寸"), ("custom", "自定义尺寸")],
+            "sizeModeSelect": [("auto", "自动"), ("preset", "预设尺寸"), ("custom", "自定义尺寸")],
             "orientation": [("square", "方形"), ("portrait", "竖图"), ("landscape", "横图")],
             "resolution": [("standard", "1K"), ("2k", "2K"), ("4k", "4K")],
             "ratio": [("1:1", "1:1"), ("21:9", "21:9")],
@@ -2334,6 +2334,68 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
 
         self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*min-height:\s*36px")
         self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*width:\s*100%")
+
+    def test_gpt_size_auto_mode_is_available_and_default(self) -> None:
+        html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
+        source = Path("codex_image/webui/frontend/src/custom-size-controls.ts").read_text(encoding="utf-8")
+        model_parameters = Path("codex_image/webui/frontend/src/model-parameters.ts").read_text(encoding="utf-8")
+        shell_ui = Path("codex_image/webui/frontend/src/shell-ui.ts").read_text(encoding="utf-8")
+        styles = Path("codex_image/webui/static/styles/70-output-settings.css").read_text(encoding="utf-8")
+
+        size_mode = re.search(r'<select id="sizeModeSelect"[^>]*>([\s\S]*?)</select>', html)
+        self.assertIsNotNone(size_mode)
+        self.assertRegex(size_mode.group(1), r'<option value="auto" selected[^>]*data-i18n="output\.sizeAuto"[^>]*>自动</option>')
+        self.assertNotRegex(size_mode.group(1), r'<option value="preset" selected')
+        self.assertRegex(html, r'<input type="text" id="size" class="hidden" value="auto"\s*/>')
+        self.assertIn('if (sizeMode === "auto")', source)
+        self.assertIn('els.size.value = "auto"', source)
+        self.assertIn('updatePixelPreview("auto")', source)
+        self.assertIn('autoSize: legacyGpt && sizeMode === "auto"', model_parameters)
+        self.assertIn('classList.toggle("auto-size-mode", visibility.autoSize)', model_parameters)
+        self.assertRegex(styles, r"\.settings-grid\.auto-size-mode\s+\.resolution-field\s*,[\s\S]*?\.orientation-field\s*\{[^}]*display:\s*none")
+        self.assertIn('els.sizeModeSelect.value = "auto"', shell_ui)
+        self.assertIn('els.size.value = "auto"', shell_ui)
+
+    def test_gpt_size_auto_mode_submits_auto_and_saves_the_draft(self) -> None:
+        node = shutil.which("node")
+        if node is None:
+            self.skipTest("node is required for frontend behavior checks")
+        source = Path("codex_image/webui/frontend/src/custom-size-controls.ts").read_text(encoding="utf-8")
+        harness = "\n".join(
+            [
+                """
+                const els = {
+                  customSizeToggle: { checked: true },
+                  sizeModeSelect: { value: "preset" },
+                  size: { value: "1024x1024" },
+                };
+                let pixelPreviewArg = "";
+                let customSizeUpdated = 0;
+                let requestPreviewUpdated = 0;
+                let modelDraftSaved = 0;
+                function updatePixelPreview(size) { pixelPreviewArg = size; }
+                function updateCustomSize() { customSizeUpdated += 1; }
+                function updateRequestPreview() { requestPreviewUpdated += 1; }
+                function saveCurrentModelParameterDraft() { modelDraftSaved += 1; }
+                """,
+                self._extract_javascript_function(source, "normalizedSizeMode"),
+                self._extract_javascript_function(source, "setSizeMode"),
+                self._extract_javascript_function(source, "updateSizeFromPreset"),
+                """
+                setSizeMode("auto");
+                if (els.sizeModeSelect.value !== "auto") throw new Error("auto mode should remain selected");
+                if (els.customSizeToggle.checked) throw new Error("auto mode must disable custom size");
+                if (els.size.value !== "auto") throw new Error(`expected auto size, got ${els.size.value}`);
+                if (pixelPreviewArg !== "auto") throw new Error(`expected auto preview, got ${pixelPreviewArg}`);
+                if (customSizeUpdated !== 1) throw new Error("expected size layout refresh");
+                if (requestPreviewUpdated !== 1) throw new Error("expected request preview refresh");
+                if (modelDraftSaved !== 1) throw new Error("expected auto mode draft save");
+                """,
+            ]
+        )
+        result = subprocess.run([node, "-e", harness], check=False, text=True, capture_output=True)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_output_quantity_uses_select_limited_to_four(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
@@ -2466,7 +2528,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
         self.assertIn('id="settingsGrid"', html)
-        self.assertRegex(html, r'class="field-group full-width custom-size-control"[\s\S]*id="sizeModeSelect"[\s\S]*value="preset" selected[\s\S]*value="custom"')
+        self.assertRegex(html, r'class="field-group full-width custom-size-control"[\s\S]*id="sizeModeSelect"[\s\S]*value="auto" selected[\s\S]*value="preset"[\s\S]*value="custom"')
         self.assertRegex(
             html,
             r'class="field-group full-width custom-size-control"[\s\S]*id="customSizeToggle"[\s\S]*</div>\s*'
@@ -2600,7 +2662,11 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertRegex(styles, r"\.custom-size-input\s*\{[^}]*width:\s*var\(--measure-input-width\)")
         self.assertRegex(styles, r"\.custom-size-input\s*\{[^}]*text-align:\s*center")
         self.assertRegex(styles, r"\.custom-size-input\s*\{[^}]*font-variant-numeric:\s*tabular-nums")
-        self.assertRegex(styles, r"\.settings-grid\.custom-size-mode\s+\.resolution-field\s*,\s*\.settings-grid\.custom-size-mode\s+\.ratio-field\s*,\s*\.settings-grid\.custom-size-mode\s+\.orientation-field\s*\{[^}]*display:\s*none")
+        for mode in ("custom-size-mode", "auto-size-mode"):
+            with self.subTest(size_mode=mode):
+                self.assertIn(f".settings-grid.{mode} .resolution-field", styles)
+                self.assertIn(f".settings-grid.{mode} .ratio-field", styles)
+                self.assertIn(f".settings-grid.{mode} .orientation-field", styles)
         self.assertRegex(styles, r"\.settings-grid\.custom-size-mode\s+\.custom-size\s*\{[^}]*grid-column:\s*1\s*/\s*-1")
         self.assertNotRegex(styles, r"\.settings-grid\.custom-size-mode\s+\.quantity-field\s*\{[^}]*grid-column:\s*1\s*/\s*-1")
         self.assertRegex(styles, r"@media \(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*\.settings-grid\s*,\s*[\s\S]*\.custom-size\s*\{[\s\S]*transition:\s*none")
@@ -2893,6 +2959,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
                 function Event(type) { this.type = type; }
                 const els = {
                   customSizeToggle: { checked: false },
+                  sizeModeSelect: { value: "preset" },
                   size: { value: "1344x2016" },
                   resolution: { value: "2k", dispatchEvent() {} },
                   ratio: { value: "2:3", dispatchEvent() {} },
@@ -2909,6 +2976,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
                 function updateRequestPreview() { requestPreviewUpdated += 1; }
                 function saveCurrentModelParameterDraft() { modelDraftSaved += 1; }
                 """,
+                self._extract_javascript_function(custom_size_source, "normalizedSizeMode"),
+                self._extract_javascript_function(custom_size_source, "setSizeMode"),
                 self._extract_javascript_function(custom_size_source, "setCustomSizeMode"),
                 self._extract_javascript_function(custom_size_source, "updateSizeFromPreset"),
                 self._extract_javascript_function(custom_size_source, "populateCustomSizeFromCurrentPreset"),

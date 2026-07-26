@@ -236,7 +236,7 @@ MODEL_MANIFESTS = (
                 group="canvas",
                 control="text",
                 value_type="string",
-                default="1024x1024",
+                default="auto",
                 full_width=True,
             ),
             _select(
