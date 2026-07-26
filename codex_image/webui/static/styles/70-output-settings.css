@@ -1567,13 +1567,35 @@ input:checked + .slider.round:before {
   color: var(--danger);
 }
 
-.settings-grid.custom-size-mode .resolution-field,
-.settings-grid.custom-size-mode .ratio-field,
-.settings-grid.custom-size-mode .orientation-field,
-.settings-grid.auto-size-mode .resolution-field,
-.settings-grid.auto-size-mode .ratio-field,
-.settings-grid.auto-size-mode .orientation-field {
-  display: none;
+.settings-grid > .ratio-field {
+  order: 10;
+  grid-column: auto;
+}
+
+.settings-grid > .resolution-field {
+  order: 20;
+}
+
+.settings-grid > .quantity-quality-row {
+  order: 30;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.settings-grid > #pixelPreview {
+  order: 40;
+}
+
+/* These controls remain in the DOM for request/history compatibility. */
+#apiDirectSettingsNotice,
+#webSearchField,
+#promptFidelityField,
+.custom-size-control,
+.orientation-field,
+#customSize,
+.quality-field,
+#outputFormatField,
+.moderation-field {
+  display: none !important;
 }
 
 .settings-grid.custom-size-mode .custom-ratio-field {

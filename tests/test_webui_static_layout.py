@@ -2335,6 +2335,64 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*min-height:\s*36px")
         self.assertRegex(styles, r"\.compact-output-select\s*\{[^}]*width:\s*100%")
 
+    def test_gpt_simplified_output_permanently_hides_low_frequency_controls(self) -> None:
+        html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
+        styles = Path("codex_image/webui/static/styles/70-output-settings.css").read_text(encoding="utf-8")
+
+        hidden_container_selectors = [
+            "#apiDirectSettingsNotice",
+            "#webSearchField",
+            "#promptFidelityField",
+            ".custom-size-control",
+            ".orientation-field",
+            "#customSize",
+            ".quality-field",
+            "#outputFormatField",
+            ".moderation-field",
+        ]
+        permanent_hide_rule = re.search(
+            r"#apiDirectSettingsNotice\s*,[\s\S]*?\.moderation-field\s*\{([^}]*)\}",
+            styles,
+        )
+        self.assertIsNotNone(permanent_hide_rule)
+        self.assertRegex(permanent_hide_rule.group(1), r"display:\s*none\s*!important")
+        for selector in hidden_container_selectors:
+            with self.subTest(selector=selector):
+                self.assertIn(selector, permanent_hide_rule.group(0))
+
+        for element_id in (
+            "apiDirectSettingsNotice",
+            "webSearchField",
+            "webSearch",
+            "promptFidelityField",
+            "promptFidelity",
+            "sizeModeSelect",
+            "orientation",
+            "customSize",
+            "customWidth",
+            "customHeight",
+            "quality",
+            "outputFormatField",
+            "outputFormat",
+            "moderation",
+        ):
+            self.assertIn(f'id="{element_id}"', html)
+
+        self.assertRegex(html, r'<option value="auto" selected[^>]*data-i18n="output\.qualityAuto"[^>]*>自动</option>')
+        self.assertRegex(html, r'<select id="outputFormat"[^>]*>[\s\S]*?<option value="png" selected>png</option>')
+        self.assertRegex(html, r'<select id="moderation"[^>]*>[\s\S]*?<option value="auto" selected>auto</option>')
+        self.assertRegex(html, r'<option value="strict" selected[^>]*data-i18n="output\.modeStrict"')
+        self.assertRegex(html, r'<input id="webSearch" type="checkbox"\s*/>')
+
+        self.assertNotIn(".settings-grid.auto-size-mode .resolution-field", styles)
+        self.assertNotIn(".settings-grid.auto-size-mode .ratio-field", styles)
+        self.assertNotIn(".settings-grid.custom-size-mode .resolution-field", styles)
+        self.assertNotIn(".settings-grid.custom-size-mode .ratio-field", styles)
+        self.assertRegex(styles, r"\.settings-grid\s*>\s*\.ratio-field\s*\{[^}]*order:\s*10[^}]*grid-column:\s*auto")
+        self.assertRegex(styles, r"\.settings-grid\s*>\s*\.resolution-field\s*\{[^}]*order:\s*20")
+        self.assertRegex(styles, r"\.settings-grid\s*>\s*\.quantity-quality-row\s*\{[^}]*order:\s*30[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)")
+        self.assertRegex(styles, r"\.settings-grid\s*>\s*#pixelPreview\s*\{[^}]*order:\s*40")
+
     def test_gpt_unified_ratio_select_defaults_to_auto_and_lists_supported_presets(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         ratio = re.search(r'<select id="ratio"[^>]*>([\s\S]*?)</select>', html)
@@ -2450,7 +2508,10 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertIn('updatePixelPreview("auto")', source)
         self.assertIn('autoSize: legacyGpt && sizeMode === "auto"', model_parameters)
         self.assertIn('classList.toggle("auto-size-mode", visibility.autoSize)', model_parameters)
-        self.assertRegex(styles, r"\.settings-grid\.auto-size-mode\s+\.resolution-field\s*,[\s\S]*?\.orientation-field\s*\{[^}]*display:\s*none")
+        self.assertNotIn(".settings-grid.auto-size-mode .resolution-field", styles)
+        self.assertNotIn(".settings-grid.auto-size-mode .ratio-field", styles)
+        self.assertIn(".orientation-field", styles)
+        self.assertIn("display: none !important", styles)
         self.assertIn('els.sizeModeSelect.value = "auto"', shell_ui)
         self.assertIn('els.size.value = "auto"', shell_ui)
 
@@ -2761,11 +2822,12 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertRegex(styles, r"\.custom-size-input\s*\{[^}]*width:\s*var\(--measure-input-width\)")
         self.assertRegex(styles, r"\.custom-size-input\s*\{[^}]*text-align:\s*center")
         self.assertRegex(styles, r"\.custom-size-input\s*\{[^}]*font-variant-numeric:\s*tabular-nums")
-        for mode in ("custom-size-mode", "auto-size-mode"):
-            with self.subTest(size_mode=mode):
-                self.assertIn(f".settings-grid.{mode} .resolution-field", styles)
-                self.assertIn(f".settings-grid.{mode} .ratio-field", styles)
-                self.assertIn(f".settings-grid.{mode} .orientation-field", styles)
+        self.assertNotIn(".settings-grid.custom-size-mode .resolution-field", styles)
+        self.assertNotIn(".settings-grid.custom-size-mode .ratio-field", styles)
+        self.assertNotIn(".settings-grid.auto-size-mode .resolution-field", styles)
+        self.assertNotIn(".settings-grid.auto-size-mode .ratio-field", styles)
+        self.assertIn(".orientation-field", styles)
+        self.assertIn("#customSize", styles)
         self.assertRegex(styles, r"\.settings-grid\.custom-size-mode\s+\.custom-size\s*\{[^}]*grid-column:\s*1\s*/\s*-1")
         self.assertNotRegex(styles, r"\.settings-grid\.custom-size-mode\s+\.quantity-field\s*\{[^}]*grid-column:\s*1\s*/\s*-1")
         self.assertRegex(styles, r"@media \(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*\.settings-grid\s*,\s*[\s\S]*\.custom-size\s*\{[\s\S]*transition:\s*none")
