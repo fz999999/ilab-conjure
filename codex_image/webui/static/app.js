@@ -39628,6 +39628,15 @@ ${galleryText}`;
     setCustomAspectRatioFromManualInputs();
   }
   function updateSizeFromPreset(event = null) {
+    const changedControl = sizeControlName(event?.target);
+    const selectedRatio = String(els26.ratio?.value || "auto");
+    const currentSizeMode = normalizedSizeMode(els26.sizeModeSelect?.value);
+    if (selectedRatio === "auto") {
+      if (els26.sizeModeSelect) els26.sizeModeSelect.value = "auto";
+    } else if (changedControl === "ratio" || currentSizeMode === "auto") {
+      if (els26.sizeModeSelect) els26.sizeModeSelect.value = "preset";
+      if (els26.customSizeToggle) els26.customSizeToggle.checked = false;
+    }
     const sizeMode = normalizedSizeMode(els26.sizeModeSelect?.value);
     if (sizeMode === "auto") {
       if (els26.customSizeToggle) els26.customSizeToggle.checked = false;
@@ -39637,7 +39646,6 @@ ${galleryText}`;
       updateRequestPreview10();
       return;
     }
-    const changedControl = sizeControlName(event?.target);
     syncRatioAndOrientation(changedControl);
     if (sizeMode === "custom" || els26.customSizeToggle?.checked) {
       if (els26.size?.value !== "custom") {
@@ -39966,12 +39974,12 @@ ${galleryText}`;
       closeMainModelCombobox();
     });
     [els27.resolution, els27.ratio, els27.orientation].filter(Boolean).forEach((element2) => {
-      element2.addEventListener("input", () => {
-        updateSizeFromPreset();
+      element2.addEventListener("input", (event) => {
+        updateSizeFromPreset(event);
         saveCurrentModelParameterDraft();
       });
-      element2.addEventListener("change", () => {
-        updateSizeFromPreset();
+      element2.addEventListener("change", (event) => {
+        updateSizeFromPreset(event);
         saveCurrentModelParameterDraft();
       });
     });
@@ -47875,7 +47883,7 @@ ${galleryText}`;
       if (els41.sizeModeSelect) els41.sizeModeSelect.value = "auto";
       if (els41.nInput) els41.nInput.value = "1";
       if (els41.resolution) els41.resolution.value = "standard";
-      if (els41.ratio) els41.ratio.value = "1:1";
+      if (els41.ratio) els41.ratio.value = "auto";
       if (els41.orientation) els41.orientation.value = "square";
       els41.size.value = "auto";
       els41.quality.value = "auto";
