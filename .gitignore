@@ -25,3 +25,6 @@ backups/
 
 # Local credentials
 账号密码.txt
+
+# Superpowers isolated worktrees
+.worktrees/
