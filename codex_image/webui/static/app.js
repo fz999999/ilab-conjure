@@ -32644,7 +32644,6 @@ ${hint}` : hint;
       els43.resolution?.closest(".resolution-field"),
       els43.ratio?.closest(".ratio-field"),
       els43.quality?.closest(".quantity-quality-row"),
-      els43.pixelPreview,
       els43.outputFormatField,
       els43.moderation?.closest(".moderation-field")
     ].filter(Boolean);

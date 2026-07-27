@@ -799,7 +799,6 @@ export function renderModelParameters(
     els.resolution?.closest(".resolution-field"),
     els.ratio?.closest(".ratio-field"),
     els.quality?.closest(".quantity-quality-row"),
-    els.pixelPreview,
     els.outputFormatField,
     els.moderation?.closest(".moderation-field"),
   ].filter(Boolean) as HTMLElement[];

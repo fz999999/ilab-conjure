@@ -328,8 +328,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('/static/app.js?v=runtime-645', html)
-        self.assertIn('/static/styles.css?v=runtime-645', html)
+        self.assertIn('/static/app.js?v=runtime-646', html)
+        self.assertIn('/static/styles.css?v=runtime-646', html)
         self.assertIn('id="recentAssetDock"', html)
         self.assertRegex(html, r'class="image-input-footer"[\s\S]*id="recentAssetDock"[\s\S]*id="recentAssetList"')
         self.assertRegex(html, r'id="recentAssetDock"[\s\S]*id="quickGalleryDock"[\s\S]*id="galleryManagePanel"')
@@ -1218,6 +1218,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
     def test_secondary_workspace_controls_are_hidden_without_reserving_gallery_space(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
+        model_parameters = Path("codex_image/webui/frontend/src/model-parameters.ts").read_text(encoding="utf-8")
 
         self.assertIn('class="image-input-workspace image-gallery-hidden"', html)
         self.assertIn('class="image-gallery-column hidden" aria-hidden="true"', html)
@@ -1225,6 +1226,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertIn('class="prompt-template-entry hidden" aria-hidden="true"', html)
         self.assertIn('class="prompt-template-row prompt-template-entry-hidden"', html)
         self.assertIn('id="pixelPreview" class="full-width hidden" aria-hidden="true"', html)
+        self.assertNotIn("    els.pixelPreview,", model_parameters)
         self.assertRegex(
             html,
             r'id="outputSettingsLockButton"[\s\S]*?class="output-settings-lock-button hidden"',
@@ -3509,8 +3511,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('/static/app.js?v=runtime-645', html)
-        self.assertIn('/static/styles.css?v=runtime-645', html)
+        self.assertIn('/static/app.js?v=runtime-646', html)
+        self.assertIn('/static/styles.css?v=runtime-646', html)
         self.assertIn('id="pasteClipboardButton"', html)
         self.assertIn('id="statusText"', html)
         self.assertRegex(
@@ -3955,8 +3957,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn("/static/app.js?v=runtime-645", html)
-        self.assertIn("/static/styles.css?v=runtime-645", html)
+        self.assertIn("/static/app.js?v=runtime-646", html)
+        self.assertIn("/static/styles.css?v=runtime-646", html)
         self.assertIn('const THEME_STORAGE_KEY = "codex-image-theme-preference";', script)
         self.assertIn('themePreference: "system"', script)
         self.assertIn('call(methods, "restoreThemePreference")', script)
