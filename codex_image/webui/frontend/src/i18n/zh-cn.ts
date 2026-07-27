@@ -963,7 +963,7 @@ export const ZH_CN_DICTIONARY: TranslationDictionary = {
     "close.gallery": "关闭公用图库面板",
     "close.addGallery": "关闭添加到图库面板",
     "close.version": "关闭版本更新面板",
-    "imageInput.referenceTitle": "参考输入（可选）",
+    "imageInput.referenceTitle": "上传参考图",
     "referenceFiles.add": "添加文件",
     "referenceFiles.selected": "参考文件",
     "referenceFiles.recent": "最近文件",

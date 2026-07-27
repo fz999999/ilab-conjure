@@ -14,9 +14,9 @@ class OutputSettingsLockFrontendContractTests(WebUIStaticTestCase):
         zh_cn = Path("codex_image/webui/frontend/src/i18n/zh-cn.ts").read_text(encoding="utf-8")
         en = Path("codex_image/webui/frontend/src/i18n/en.ts").read_text(encoding="utf-8")
 
-        self.assertIn('<h2 data-i18n="imageInput.referenceTitle">参考输入（可选）</h2>', html)
+        self.assertIn('<h2 data-i18n="imageInput.referenceTitle">上传参考图</h2>', html)
         self.assertIn('data-i18n="output.lock.adoptTask">使用此任务参数</button>', html)
-        self.assertIn('"imageInput.referenceTitle": "参考输入（可选）"', zh_cn)
+        self.assertIn('"imageInput.referenceTitle": "上传参考图"', zh_cn)
         self.assertIn('"output.lock.adoptTask": "使用此任务参数"', zh_cn)
         self.assertIn('使用后不改变系统通道', zh_cn)
         self.assertIn('"imageInput.referenceTitle": "Reference input (optional)"', en)

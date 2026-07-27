@@ -11193,7 +11193,7 @@
     "close.gallery": "\u5173\u95ED\u516C\u7528\u56FE\u5E93\u9762\u677F",
     "close.addGallery": "\u5173\u95ED\u6DFB\u52A0\u5230\u56FE\u5E93\u9762\u677F",
     "close.version": "\u5173\u95ED\u7248\u672C\u66F4\u65B0\u9762\u677F",
-    "imageInput.referenceTitle": "\u53C2\u8003\u8F93\u5165\uFF08\u53EF\u9009\uFF09",
+    "imageInput.referenceTitle": "\u4E0A\u4F20\u53C2\u8003\u56FE",
     "referenceFiles.add": "\u6DFB\u52A0\u6587\u4EF6",
     "referenceFiles.selected": "\u53C2\u8003\u6587\u4EF6",
     "referenceFiles.recent": "\u6700\u8FD1\u6587\u4EF6",

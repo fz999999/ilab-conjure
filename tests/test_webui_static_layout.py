@@ -328,8 +328,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('/static/app.js?v=runtime-646', html)
-        self.assertIn('/static/styles.css?v=runtime-646', html)
+        self.assertIn('/static/app.js?v=runtime-647', html)
+        self.assertIn('/static/styles.css?v=runtime-647', html)
         self.assertIn('id="recentAssetDock"', html)
         self.assertRegex(html, r'class="image-input-footer"[\s\S]*id="recentAssetDock"[\s\S]*id="recentAssetList"')
         self.assertRegex(html, r'id="recentAssetDock"[\s\S]*id="quickGalleryDock"[\s\S]*id="galleryManagePanel"')
@@ -1041,7 +1041,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
             r"\.preview-panel\s*\{[^}]*position:\s*relative[^}]*inset:\s*auto[^}]*min-height:\s*260px",
         )
 
-        for title in ("参考输入（可选）", "提示词", "输出设置"):
+        for title in ("上传参考图", "提示词", "输出设置"):
             self.assertIn(title, html)
         self.assertIn("justify-content: space-between", self._extract_css_block(layout, ".panel-heading"))
         self.assertIn("justify-content: space-between", self._extract_css_block(prompt, ".prompt-heading-main"))
@@ -1273,7 +1273,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertNotIn('id="gallerySearch"', html)
         self.assertNotIn('id="galleryButtons"', html)
         self.assertNotIn("gallery-picker-row", html)
-        self.assertRegex(html, r'<div class="panel-heading">\s*<h2[^>]*>参考输入（可选）</h2>\s*</div>')
+        self.assertRegex(html, r'<div class="panel-heading">\s*<h2[^>]*>上传参考图</h2>\s*</div>')
         self.assertRegex(html, r'<div class="image-input-footer">[\s\S]*<div class="image-input-actions">[\s\S]*<button id="clearImagesButton"')
         self.assertRegex(html, r'<div class="image-input-footer">[\s\S]*id="recentAssetDock"[\s\S]*id="recentAssetList"')
         self.assertRegex(html, r'<div class="image-gallery-column hidden" aria-hidden="true">[\s\S]*id="quickGalleryDock"[\s\S]*id="galleryManagePanel"')
@@ -3511,8 +3511,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('/static/app.js?v=runtime-646', html)
-        self.assertIn('/static/styles.css?v=runtime-646', html)
+        self.assertIn('/static/app.js?v=runtime-647', html)
+        self.assertIn('/static/styles.css?v=runtime-647', html)
         self.assertIn('id="pasteClipboardButton"', html)
         self.assertIn('id="statusText"', html)
         self.assertRegex(
@@ -3957,8 +3957,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn("/static/app.js?v=runtime-646", html)
-        self.assertIn("/static/styles.css?v=runtime-646", html)
+        self.assertIn("/static/app.js?v=runtime-647", html)
+        self.assertIn("/static/styles.css?v=runtime-647", html)
         self.assertIn('const THEME_STORAGE_KEY = "codex-image-theme-preference";', script)
         self.assertIn('themePreference: "system"', script)
         self.assertIn('call(methods, "restoreThemePreference")', script)
