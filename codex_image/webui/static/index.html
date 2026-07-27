@@ -532,10 +532,10 @@
                   <select id="concreteModelSelect" class="control" aria-label="具体型号" data-i18n-attr="aria-label:modelSelection.concreteModel" disabled></select>
                   <div id="concreteModelOptions" class="radio-group concrete-model-options hidden" role="group" aria-label="具体型号" data-i18n-attr="aria-label:modelSelection.concreteModel"></div>
                 </div>
-                <div id="modeSettingsSlot" class="mode-settings-slot full-width">
-                  <div id="modeSpecificSettings" class="mode-specific-settings mode-transition">
+                <div id="modeSettingsSlot" class="mode-settings-slot full-width mode-collapsed hidden" aria-hidden="true">
+                  <div id="modeSpecificSettings" class="mode-specific-settings mode-transition mode-collapsed hidden" aria-hidden="true">
                     <div class="model-tool-row">
-                      <label id="mainModelField" class="field main-model-field">
+                      <label id="mainModelField" class="field main-model-field mode-collapsed hidden" aria-hidden="true">
                         <span data-i18n="output.mainModel">主模型</span>
                         <div
                           id="mainModelCombobox"

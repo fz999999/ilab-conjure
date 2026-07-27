@@ -1315,6 +1315,23 @@ console.log(cases.map((color) => readableTextColor(color)).join("\\n"));
         result = subprocess.run([node, "-e", harness], check=False, text=True, capture_output=True)
 
         self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_mode_specific_controls_are_hidden_before_javascript_initializes(self) -> None:
+        html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
+
+        self.assertRegex(
+            html,
+            r'id="modeSettingsSlot"\s+class="mode-settings-slot full-width mode-collapsed hidden"',
+        )
+        self.assertRegex(
+            html,
+            r'id="modeSpecificSettings"\s+class="mode-specific-settings mode-transition mode-collapsed hidden"',
+        )
+        self.assertRegex(
+            html,
+            r'id="mainModelField"\s+class="field main-model-field mode-collapsed hidden"',
+        )
+
     def test_api_direct_mode_hides_non_applicable_main_model_but_keeps_prompt_fidelity(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         script = self._frontend_script_source()
@@ -1326,8 +1343,8 @@ console.log(cases.map((color) => readableTextColor(color)).join("\\n"));
         self.assertIn('id="apiDirectSettingsNotice"', html)
         self.assertIn('id="modeSpecificSettings"', html)
         self.assertIn('id="modeSettingsSlot"', html)
-        self.assertIn('class="mode-settings-slot full-width"', html)
-        self.assertIn('class="mode-specific-settings mode-transition"', html)
+        self.assertIn('class="mode-settings-slot full-width mode-collapsed hidden"', html)
+        self.assertIn('class="mode-specific-settings mode-transition mode-collapsed hidden"', html)
         self.assertIn('class="model-tool-row"', html)
         self.assertIn('class="field api-direct-settings-notice mode-transition mode-collapsed hidden"', html)
         self.assertRegex(
