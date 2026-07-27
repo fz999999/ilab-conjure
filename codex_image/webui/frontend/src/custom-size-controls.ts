@@ -408,7 +408,7 @@ export function syncSizeControlsFromSize(size: any): void {
     if (els.customSizeToggle) els.customSizeToggle.checked = false;
     if (els.sizeModeSelect) els.sizeModeSelect.value = "auto";
     if (els.resolution) els.resolution.value = DEFAULT_RESOLUTION;
-    if (els.ratio) els.ratio.value = DEFAULT_RATIO;
+    if (els.ratio) els.ratio.value = "auto";
     if (els.orientation) els.orientation.value = DEFAULT_ORIENTATION;
     updateSizeFromPreset();
     syncRadioButtons(els.resolution, els.ratio, els.orientation);

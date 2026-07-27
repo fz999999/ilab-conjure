@@ -328,8 +328,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('/static/app.js?v=runtime-643', html)
-        self.assertIn('/static/styles.css?v=runtime-643', html)
+        self.assertIn('/static/app.js?v=runtime-644', html)
+        self.assertIn('/static/styles.css?v=runtime-644', html)
         self.assertIn('id="recentAssetDock"', html)
         self.assertRegex(html, r'class="image-input-footer"[\s\S]*id="recentAssetDock"[\s\S]*id="recentAssetList"')
         self.assertRegex(html, r'id="recentAssetDock"[\s\S]*id="quickGalleryDock"[\s\S]*id="galleryManagePanel"')
@@ -2475,6 +2475,7 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
                 function updatePixelPreview(size) { pixelPreviewArg = size; }
                 function updateCustomSize() {}
                 function updateRequestPreview() {}
+                function syncRadioButtons() {}
                 function setCustomAspectRatioFromManualInputs() {}
                 function applyCustomAspectRatioFromWidth() {}
                 function populateCustomSizeFromCurrentPreset() {}
@@ -2488,7 +2489,16 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
                 self._extract_javascript_function(size_source, "presetDimensions"),
                 self._extract_javascript_function(size_source, "sizeForPreset"),
                 self._extract_javascript_function(source, "updateSizeFromPreset"),
+                self._extract_javascript_function(source, "syncSizeControlsFromSize"),
                 """
+                els.sizeModeSelect.value = "preset";
+                els.size.value = "1536x864";
+                els.ratio.value = "16:9";
+                syncSizeControlsFromSize("auto");
+                if (els.sizeModeSelect.value !== "auto") throw new Error(`restored auto size must use auto mode, got ${els.sizeModeSelect.value}`);
+                if (els.size.value !== "auto") throw new Error(`restored auto size must stay auto, got ${els.size.value}`);
+                if (els.ratio.value !== "auto") throw new Error(`restored auto size must keep auto ratio, got ${els.ratio.value}`);
+
                 updateSizeFromPreset({ target: els.ratio });
                 if (els.sizeModeSelect.value !== "auto") throw new Error(`expected auto mode, got ${els.sizeModeSelect.value}`);
                 if (els.size.value !== "auto") throw new Error(`expected auto size, got ${els.size.value}`);
@@ -3498,8 +3508,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('/static/app.js?v=runtime-643', html)
-        self.assertIn('/static/styles.css?v=runtime-643', html)
+        self.assertIn('/static/app.js?v=runtime-644', html)
+        self.assertIn('/static/styles.css?v=runtime-644', html)
         self.assertIn('id="pasteClipboardButton"', html)
         self.assertIn('id="statusText"', html)
         self.assertRegex(
@@ -3944,8 +3954,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn("/static/app.js?v=runtime-643", html)
-        self.assertIn("/static/styles.css?v=runtime-643", html)
+        self.assertIn("/static/app.js?v=runtime-644", html)
+        self.assertIn("/static/styles.css?v=runtime-644", html)
         self.assertIn('const THEME_STORAGE_KEY = "codex-image-theme-preference";', script)
         self.assertIn('themePreference: "system"', script)
         self.assertIn('call(methods, "restoreThemePreference")', script)

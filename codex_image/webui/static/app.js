@@ -39745,7 +39745,7 @@ ${galleryText}`;
       if (els26.customSizeToggle) els26.customSizeToggle.checked = false;
       if (els26.sizeModeSelect) els26.sizeModeSelect.value = "auto";
       if (els26.resolution) els26.resolution.value = DEFAULT_RESOLUTION;
-      if (els26.ratio) els26.ratio.value = DEFAULT_RATIO;
+      if (els26.ratio) els26.ratio.value = "auto";
       if (els26.orientation) els26.orientation.value = DEFAULT_ORIENTATION;
       updateSizeFromPreset();
       syncRadioButtons(els26.resolution, els26.ratio, els26.orientation);

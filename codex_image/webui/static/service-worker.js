@@ -1,10 +1,10 @@
-const CACHE_NAME = "ilab-conjure-shell-v111";
+const CACHE_NAME = "ilab-conjure-shell-v112";
 const APP_SHELL_URLS = [
   "/",
   "/history",
   "/manifest.webmanifest",
-  "/static/styles.css?v=runtime-643",
-  "/static/app.js?v=runtime-643",
+  "/static/styles.css?v=runtime-644",
+  "/static/app.js?v=runtime-644",
   "/static/history.js?v=history-71",
   "/static/pwa.js?v=pwa-2",
   "/static/brand/dachuan-logo-64.png",

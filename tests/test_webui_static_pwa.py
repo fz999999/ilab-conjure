@@ -88,13 +88,13 @@ class WebUIPWATests(unittest.TestCase):
         self.assertTrue(worker_path.exists())
         source = worker_path.read_text(encoding="utf-8")
 
-        self.assertIn('const CACHE_NAME = "ilab-conjure-shell-v111";', source)
+        self.assertIn('const CACHE_NAME = "ilab-conjure-shell-v112";', source)
         self.assertIn('"/"', source)
         self.assertIn('"/history"', source)
         self.assertIn('"/manifest.webmanifest"', source)
-        self.assertIn('"/static/app.js?v=runtime-643"', source)
+        self.assertIn('"/static/app.js?v=runtime-644"', source)
         self.assertIn('"/static/history.js?v=history-71"', source)
-        self.assertIn('"/static/styles.css?v=runtime-643"', source)
+        self.assertIn('"/static/styles.css?v=runtime-644"', source)
         self.assertIn("request.mode === \"navigate\"", source)
         self.assertIn("async function networkFirst(request)", source)
         self.assertIn("const response = await fetch(request);", source)
@@ -132,7 +132,7 @@ const self = {{
 vm.runInNewContext({json.dumps(source)}, {{ self, caches, fetch: async () => freshResponse, URL, Promise }});
 let responsePromise;
 listeners.get("fetch")({{
-  request: {{ method: "GET", mode: "same-origin", url: "https://image.test/static/app.js?v=runtime-643" }},
+  request: {{ method: "GET", mode: "same-origin", url: "https://image.test/static/app.js?v=runtime-644" }},
   respondWith: (promise) => {{ responsePromise = promise; }},
 }});
 Promise.resolve(responsePromise).then((response) => {{
