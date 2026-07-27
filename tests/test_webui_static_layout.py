@@ -328,8 +328,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('/static/app.js?v=runtime-642', html)
-        self.assertIn('/static/styles.css?v=runtime-642', html)
+        self.assertIn('/static/app.js?v=runtime-643', html)
+        self.assertIn('/static/styles.css?v=runtime-643', html)
         self.assertIn('id="recentAssetDock"', html)
         self.assertRegex(html, r'class="image-input-footer"[\s\S]*id="recentAssetDock"[\s\S]*id="recentAssetList"')
         self.assertRegex(html, r'id="recentAssetDock"[\s\S]*id="quickGalleryDock"[\s\S]*id="galleryManagePanel"')
@@ -1215,16 +1215,38 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertNotIn("maskName", script)
         self.assertNotIn("setMask", script)
         self.assertNotIn('form.append("mask"', script)
+    def test_secondary_workspace_controls_are_hidden_without_reserving_gallery_space(self) -> None:
+        html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
+        styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
+
+        self.assertIn('class="image-input-workspace image-gallery-hidden"', html)
+        self.assertIn('class="image-gallery-column hidden" aria-hidden="true"', html)
+        self.assertIn('id="promptFindButton" class="ghost-button icon-text-button text-sm prompt-find-button hidden"', html)
+        self.assertIn('class="prompt-template-entry hidden" aria-hidden="true"', html)
+        self.assertIn('class="prompt-template-row prompt-template-entry-hidden"', html)
+        self.assertRegex(
+            html,
+            r'id="outputSettingsLockButton"[\s\S]*?class="output-settings-lock-button hidden"',
+        )
+        self.assertRegex(
+            styles,
+            r"\.image-input-workspace\.image-gallery-hidden,\s*\.controls-col \.image-input-workspace\.image-gallery-hidden\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)",
+        )
+        self.assertRegex(
+            styles,
+            r"\.prompt-template-row\.prompt-template-entry-hidden\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)",
+        )
+
     def test_image_input_uses_quick_gallery_dock(self) -> None:
         html = Path("codex_image/webui/static/index.html").read_text(encoding="utf-8")
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('class="image-input-workspace"', html)
+        self.assertIn('class="image-input-workspace image-gallery-hidden"', html)
         self.assertIn('class="image-input-left"', html)
         self.assertIn('class="image-input-footer"', html)
         self.assertIn('class="image-input-actions"', html)
-        self.assertIn('class="image-gallery-column"', html)
+        self.assertIn('class="image-gallery-column hidden" aria-hidden="true"', html)
         self.assertIn('id="imageThumbList"', html)
         image_thumb_list = html[html.index('id="imageThumbList"'):html.index('id="imageUploadSource"')]
         self.assertLess(image_thumb_list.index('id="imageThumbItems"'), image_thumb_list.index('id="referenceFileSelection"'))
@@ -1251,8 +1273,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         self.assertRegex(html, r'<div class="panel-heading">\s*<h2[^>]*>参考输入（可选）</h2>\s*</div>')
         self.assertRegex(html, r'<div class="image-input-footer">[\s\S]*<div class="image-input-actions">[\s\S]*<button id="clearImagesButton"')
         self.assertRegex(html, r'<div class="image-input-footer">[\s\S]*id="recentAssetDock"[\s\S]*id="recentAssetList"')
-        self.assertRegex(html, r'<div class="image-gallery-column">[\s\S]*id="quickGalleryDock"[\s\S]*id="galleryManagePanel"')
-        self.assertNotRegex(html, r'<div class="image-gallery-column">[\s\S]*id="recentAssetDock"')
+        self.assertRegex(html, r'<div class="image-gallery-column hidden" aria-hidden="true">[\s\S]*id="quickGalleryDock"[\s\S]*id="galleryManagePanel"')
+        self.assertNotRegex(html, r'<div class="image-gallery-column hidden" aria-hidden="true">[\s\S]*id="recentAssetDock"')
         self.assertIn('id="addToGalleryModal"', html)
         self.assertIn("imageUploadSource: document.querySelector(\"#imageUploadSource\")", script)
         self.assertIn("imageThumbList: document.querySelector(\"#imageThumbList\")", script)
@@ -3476,8 +3498,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn('/static/app.js?v=runtime-642', html)
-        self.assertIn('/static/styles.css?v=runtime-642', html)
+        self.assertIn('/static/app.js?v=runtime-643', html)
+        self.assertIn('/static/styles.css?v=runtime-643', html)
         self.assertIn('id="pasteClipboardButton"', html)
         self.assertIn('id="statusText"', html)
         self.assertRegex(
@@ -3922,8 +3944,8 @@ class WebUIStaticLayoutTests(WebUIStaticTestCase):
         script = self._frontend_script_source()
         styles = Path("codex_image/webui/static/styles.css").read_text(encoding="utf-8")
 
-        self.assertIn("/static/app.js?v=runtime-642", html)
-        self.assertIn("/static/styles.css?v=runtime-642", html)
+        self.assertIn("/static/app.js?v=runtime-643", html)
+        self.assertIn("/static/styles.css?v=runtime-643", html)
         self.assertIn('const THEME_STORAGE_KEY = "codex-image-theme-preference";', script)
         self.assertIn('themePreference: "system"', script)
         self.assertIn('call(methods, "restoreThemePreference")', script)

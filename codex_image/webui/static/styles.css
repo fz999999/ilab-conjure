@@ -3663,6 +3663,11 @@ select.themed-select-native {
   min-width: 0;
 }
 
+.image-input-workspace.image-gallery-hidden,
+.controls-col .image-input-workspace.image-gallery-hidden {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .image-input-left {
   display: flex;
   flex-direction: column;
@@ -4682,6 +4687,10 @@ select.themed-select-native {
   align-items: center;
   min-height: var(--prompt-secondary-action-height);
   margin-top: 8px;
+}
+
+.prompt-template-row.prompt-template-entry-hidden {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .prompt-template-entry {

@@ -114,7 +114,7 @@
         });
       })();
     </script>
-    <link rel="stylesheet" href="/static/styles.css?v=runtime-642" />
+    <link rel="stylesheet" href="/static/styles.css?v=runtime-643" />
   </head>
   <body>
     <div class="layout-container">
@@ -354,7 +354,7 @@
                 <h2 data-i18n="imageInput.referenceTitle">参考输入（可选）</h2>
               </div>
 
-              <div class="image-input-workspace">
+              <div class="image-input-workspace image-gallery-hidden">
                 <div class="image-input-left">
                   <div class="image-input-main">
                     <div class="image-uploader-grid">
@@ -402,7 +402,7 @@
                   </div>
                 </div>
 
-                <div class="image-gallery-column">
+                <div class="image-gallery-column hidden" aria-hidden="true">
                   <div id="quickGalleryDock" class="quick-gallery-dock" aria-label="快速选择公用图库" data-i18n-attr="aria-label:gallery.quick">
                     <div id="quickGalleryPreview" class="quick-gallery-preview"></div>
                     <div class="quick-gallery-picker">
@@ -455,7 +455,7 @@
                   <button id="runButton" class="run-button prompt-run-button" type="button" aria-keyshortcuts="Meta+Enter" title="开始生成（Cmd+Enter）" data-i18n="prompt.run" data-i18n-attr="title:prompt.runTitle">开始生成</button>
                 </div>
               </div>
-              <div class="prompt-template-row">
+              <div class="prompt-template-row prompt-template-entry-hidden">
                 <div class="prompt-template-recent-cell">
                   <div class="prompt-footer">
                     <button id="clearPromptButton" class="ghost-button icon-text-button text-sm quiet-danger-button" type="button">
@@ -464,7 +464,7 @@
                       </svg>
                       <span data-i18n="action.clear">清空</span>
                     </button>
-                    <button id="promptFindButton" class="ghost-button icon-text-button text-sm prompt-find-button" type="button" aria-controls="promptFindPanel" aria-expanded="false">
+                    <button id="promptFindButton" class="ghost-button icon-text-button text-sm prompt-find-button hidden" type="button" aria-controls="promptFindPanel" aria-expanded="false">
                       <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                         <path d="m20 20-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
@@ -484,7 +484,7 @@
                   </div>
                   <div id="promptTemplateRecentDock" class="prompt-template-recent-dock hidden" aria-label="最近使用模板" data-i18n-attr="aria-label:prompt.recentTemplates"></div>
                 </div>
-                <div class="prompt-template-entry">
+                <div class="prompt-template-entry hidden" aria-hidden="true">
                   <button id="promptTemplateButton" class="ghost-button text-sm icon-text-button resource-manage-button prompt-template-button" type="button" aria-controls="promptTemplateDrawer" aria-expanded="false" title="管理模板库" data-i18n-attr="title:prompt.manageTemplates">
                     <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                       <path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -501,7 +501,7 @@
                 <h2 data-i18n="outputSettings.title">输出设置</h2>
                 <button
                   id="outputSettingsLockButton"
-                  class="output-settings-lock-button"
+                  class="output-settings-lock-button hidden"
                   type="button"
                   aria-pressed="false"
                   aria-label="锁定参数"
@@ -1343,7 +1343,7 @@
     </div>
 
     <div id="taskNotificationToastRegion" class="task-notification-toast-region" aria-live="polite"></div>
-  <script src="/static/app.js?v=runtime-642"></script>
+  <script src="/static/app.js?v=runtime-643"></script>
     <script>
       (() => {
         document.querySelectorAll(".radio-group").forEach((group) => {

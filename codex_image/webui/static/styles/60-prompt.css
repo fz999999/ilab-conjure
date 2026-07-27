@@ -51,6 +51,10 @@
   margin-top: 8px;
 }
 
+.prompt-template-row.prompt-template-entry-hidden {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .prompt-template-entry {
   display: flex;
   align-items: center;

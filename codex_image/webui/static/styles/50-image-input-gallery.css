@@ -22,6 +22,11 @@
   min-width: 0;
 }
 
+.image-input-workspace.image-gallery-hidden,
+.controls-col .image-input-workspace.image-gallery-hidden {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .image-input-left {
   display: flex;
   flex-direction: column;

@@ -356,7 +356,7 @@ class WebUIStaticPromptTests(WebUIStaticTestCase):
         self.assertIn('title="开始生成（Cmd+Enter）"', prompt_html)
         self.assertRegex(
             prompt_html,
-            r"id=\"runButton\"[\s\S]*<div class=\"prompt-template-row\">[\s\S]*<div class=\"prompt-footer\">[\s\S]*id=\"clearPromptButton\"[\s\S]*id=\"promptTemplateRecentDock\"[\s\S]*id=\"promptTemplateButton\"",
+            r"id=\"runButton\"[\s\S]*<div class=\"prompt-template-row prompt-template-entry-hidden\">[\s\S]*<div class=\"prompt-footer\">[\s\S]*id=\"clearPromptButton\"[\s\S]*id=\"promptTemplateRecentDock\"[\s\S]*id=\"promptTemplateButton\"",
         )
         self.assertIn('class="ghost-button text-sm icon-text-button resource-manage-button prompt-template-button"', prompt_html)
         self.assertIn('title="管理模板库"', prompt_html)
@@ -549,7 +549,7 @@ class WebUIStaticPromptTests(WebUIStaticTestCase):
             prompt_html,
             r"<div class=\"prompt-footer\">[\s\S]*id=\"clearPromptButton\"[\s\S]*id=\"promptFindButton\"[\s\S]*<span[^>]*>查找</span>[\s\S]*id=\"promptFindPanel\"",
         )
-        self.assertIn('id="promptFindButton" class="ghost-button icon-text-button text-sm prompt-find-button"', prompt_html)
+        self.assertIn('id="promptFindButton" class="ghost-button icon-text-button text-sm prompt-find-button hidden"', prompt_html)
         self.assertIn('id="promptFindPanel" class="prompt-find-panel hidden"', prompt_html)
         self.assertIn('id="promptFindInput"', prompt_html)
         self.assertIn('id="promptReplaceInput"', prompt_html)
@@ -1210,8 +1210,8 @@ console.log(cases.map((color) => readableTextColor(color)).join("\\n"));
         self.assertIn('id="mainModelToggle"', html)
         self.assertIn('id="mainModelOptions"', html)
         self.assertIn('role="listbox"', html)
-        self.assertIn('/static/app.js?v=runtime-642', html)
-        self.assertIn('/static/styles.css?v=runtime-642', html)
+        self.assertIn('/static/app.js?v=runtime-643', html)
+        self.assertIn('/static/styles.css?v=runtime-643', html)
         self.assertIn("mainModel: document.querySelector", script)
         self.assertIn("mainModelCombobox: document.querySelector", script)
         self.assertIn("mainModelToggle: document.querySelector", script)

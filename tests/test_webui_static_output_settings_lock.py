@@ -124,7 +124,7 @@ class OutputSettingsLockFrontendContractTests(WebUIStaticTestCase):
         panel = html[panel_start:panel_end]
 
         self.assertIn('id="outputSettingsHeader"', panel)
-        self.assertIn('id="outputSettingsLockButton"', panel)
+        self.assertRegex(panel, r'id="outputSettingsLockButton"[\s\S]*?class="output-settings-lock-button hidden"')
         self.assertIn('id="outputSettingsLockedSummary"', panel)
         self.assertIn('id="outputSettingsSummaryContent"', panel)
         self.assertIn('id="outputSettingsTaskAction"', panel)
