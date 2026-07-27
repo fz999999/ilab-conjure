@@ -1,12 +1,12 @@
-const CACHE_NAME = "ilab-conjure-shell-v109";
+const CACHE_NAME = "ilab-conjure-shell-v110";
 const APP_SHELL_URLS = [
   "/",
   "/history",
   "/manifest.webmanifest",
-  "/static/styles.css?v=runtime-641",
-  "/static/app.js?v=runtime-641",
+  "/static/styles.css?v=runtime-642",
+  "/static/app.js?v=runtime-642",
   "/static/history.js?v=history-71",
-  "/static/pwa.js?v=pwa-1",
+  "/static/pwa.js?v=pwa-2",
   "/static/brand/dachuan-logo-64.png",
   "/static/brand/dachuan-logo-180.png",
   "/static/brand/pwa-icon-192.png",
@@ -30,6 +30,21 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+async function networkFirst(request) {
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      const cache = await caches.open(CACHE_NAME);
+      await cache.put(request, response.clone());
+    }
+    return response;
+  } catch (error) {
+    const cached = await caches.match(request, { ignoreSearch: true });
+    if (cached) return cached;
+    throw error;
+  }
+}
+
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
@@ -38,21 +53,11 @@ self.addEventListener("fetch", (event) => {
   if (requestUrl.origin !== self.location.origin) return;
 
   if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request).catch(() => caches.match("/", { ignoreSearch: true }))
-    );
+    event.respondWith(networkFirst(request));
     return;
   }
 
   if (!APP_SHELL_PATHS.has(requestUrl.pathname)) return;
 
-  event.respondWith(
-    caches.match(request).then((cached) => (
-      cached || fetch(request).then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-        return response;
-      }).catch(() => caches.match(request, { ignoreSearch: true }))
-    ))
-  );
+  event.respondWith(networkFirst(request));
 });

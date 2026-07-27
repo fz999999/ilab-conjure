@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import shutil
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -16,7 +18,7 @@ class WebUIPWATests(unittest.TestCase):
 
         manifest_link = '<link rel="manifest" href="/manifest.webmanifest" />'
         theme_meta = '<meta name="theme-color" content="#457B66" />'
-        pwa_script = '<script src="/static/pwa.js?v=pwa-1" defer></script>'
+        pwa_script = '<script src="/static/pwa.js?v=pwa-2" defer></script>'
 
         self.assertIn(manifest_link, index_html)
         self.assertIn(manifest_link, history_html)
@@ -29,7 +31,7 @@ class WebUIPWATests(unittest.TestCase):
         pwa_script_source = pwa_script_path.read_text(encoding="utf-8")
         self.assertIn('"serviceWorker" in navigator', pwa_script_source)
         self.assertIn("window.isSecureContext", pwa_script_source)
-        self.assertIn('navigator.serviceWorker.register("/service-worker.js", { scope: "/" })', pwa_script_source)
+        self.assertIn('navigator.serviceWorker.register("/service-worker.js", { scope: "/", updateViaCache: "none" })', pwa_script_source)
 
     def test_web_app_manifest_uses_dachuan_brand_identity_and_installable_metadata(self) -> None:
         manifest_path = Path("codex_image/webui/static/manifest.webmanifest")
@@ -86,20 +88,65 @@ class WebUIPWATests(unittest.TestCase):
         self.assertTrue(worker_path.exists())
         source = worker_path.read_text(encoding="utf-8")
 
-        self.assertIn('const CACHE_NAME = "ilab-conjure-shell-v109";', source)
+        self.assertIn('const CACHE_NAME = "ilab-conjure-shell-v110";', source)
         self.assertIn('"/"', source)
         self.assertIn('"/history"', source)
         self.assertIn('"/manifest.webmanifest"', source)
-        self.assertIn('"/static/app.js?v=runtime-641"', source)
+        self.assertIn('"/static/app.js?v=runtime-642"', source)
         self.assertIn('"/static/history.js?v=history-71"', source)
-        self.assertIn('"/static/styles.css?v=runtime-641"', source)
+        self.assertIn('"/static/styles.css?v=runtime-642"', source)
         self.assertIn("request.mode === \"navigate\"", source)
-        self.assertIn("caches.match(request).then", source)
-        self.assertIn("catch(() => caches.match(request, { ignoreSearch: true }))", source)
+        self.assertIn("async function networkFirst(request)", source)
+        self.assertIn("const response = await fetch(request);", source)
+        self.assertNotIn("caches.match(request).then((cached)", source)
+        self.assertIn("const cached = await caches.match(request, { ignoreSearch: true });", source)
         self.assertNotIn('"/api/', source)
         self.assertNotIn('"/events', source)
         self.assertNotIn('"/inputs', source)
         self.assertNotIn('"/outputs', source)
+
+    def test_service_worker_prefers_current_network_shell_over_stale_cache(self) -> None:
+        node = shutil.which("node")
+        if not node:
+            self.skipTest("node is required for service worker behavior verification")
+
+        source = Path("codex_image/webui/static/service-worker.js").read_text(encoding="utf-8")
+        harness = f"""
+const vm = require("node:vm");
+const listeners = new Map();
+const staleResponse = {{ source: "cache", ok: true, clone() {{ return this; }} }};
+const freshResponse = {{ source: "network", ok: true, clone() {{ return this; }} }};
+const cache = {{ addAll: async () => undefined, put: async () => undefined }};
+const caches = {{
+  keys: async () => [],
+  delete: async () => true,
+  open: async () => cache,
+  match: async () => staleResponse,
+}};
+const self = {{
+  location: {{ origin: "https://image.test" }},
+  clients: {{ claim: async () => undefined }},
+  skipWaiting: async () => undefined,
+  addEventListener: (type, handler) => listeners.set(type, handler),
+}};
+vm.runInNewContext({json.dumps(source)}, {{ self, caches, fetch: async () => freshResponse, URL, Promise }});
+let responsePromise;
+listeners.get("fetch")({{
+  request: {{ method: "GET", mode: "same-origin", url: "https://image.test/static/app.js?v=runtime-642" }},
+  respondWith: (promise) => {{ responsePromise = promise; }},
+}});
+Promise.resolve(responsePromise).then((response) => {{
+  if (response.source !== "network") {{
+    throw new Error(`expected network response, received ${{response.source}}`);
+  }}
+}}).catch((error) => {{
+  console.error(error.stack || error);
+  process.exitCode = 1;
+}});
+"""
+        result = subprocess.run([node, "-e", harness], check=False, text=True, capture_output=True)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_pwa_root_assets_are_served_from_webui_app(self) -> None:
         from codex_image.webui.app import create_app
